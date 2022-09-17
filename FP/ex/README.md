@@ -1,5 +1,5 @@
-This directory contains all the modern Java source code examples from
-my online courses at Vanderbilt.  Many of these examples now use
+This directory contains the modern Java functional programming
+examples from my online courses at Vanderbilt.  Many examples use
 features found in later Java releases, so I recommend installing Java
 18 (at least) to avoid compatibility problems.
 
