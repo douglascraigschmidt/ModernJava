@@ -3,8 +3,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This example generates and checks count positive odd random numbers
- * and prints which are prime and which are not.
+ * This example uses the Java streams framework to generate and check
+ * sMAX_COUNT positive odd random numbers and print which are prime
+ * and which are not.
  */
 public class ex1 {
     /**
