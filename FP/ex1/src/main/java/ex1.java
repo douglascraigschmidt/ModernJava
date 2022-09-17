@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -7,6 +5,7 @@ import java.util.Random;
  * sMAX_COUNT positive odd random numbers and print which are prime
  * and which are not.
  */
+@SuppressWarnings("SameParameterValue")
 public class ex1 {
     /**
      * The number of positive odd random numbers to check for
@@ -20,7 +19,7 @@ public class ex1 {
     static public void main(String[] argv) {
         // Generate and check sMAX_COUNT odd random numbers and print
         // which are prime and which are not.
-        checkRandomNumbersForPrimes(sMAX_COUNT);
+        checkForPrimes(sMAX_COUNT);
     }        
 
     /**
@@ -44,7 +43,7 @@ public class ex1 {
      * @param count The number of positive odd random numbers to
      *              check for primality
      */
-    static void checkRandomNumbersForPrimes(int count) {
+    static void checkForPrimes(int count) {
         new Random()
             // Generate an infinite stream of random positive ints.
             .ints(1, Integer.MAX_VALUE)
