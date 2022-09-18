@@ -6,8 +6,8 @@ import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
 
 /**
- * This example shows two zap*() method implementations that remove
- * a string from a list of strings.  One method uses traditional Java 7
+ * This example shows two method implementations that remove a string
+ * from a list of strings.  One method uses traditional Java 7
  * features and the other uses basic modern Java features.
  */
 public class ex0 {
@@ -17,15 +17,8 @@ public class ex0 {
     static public void main(String[] argv) {
         // The array of names.
         String[] nameArray = {
-            "Barbara",
-            "James",
-            "Mary",
-            "John",
-            "Robert",
-            "Michael",
-            "Linda",
-            "james",
-            "mary"
+            "Barbara", "James", "Mary", "John", "Robert",
+            "Michael", "Linda", "james", "mary"
         };
 
         // Remove "Robert" from the list created from nameArray.
