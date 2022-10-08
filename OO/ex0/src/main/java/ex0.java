@@ -25,7 +25,7 @@ public class ex0 {
      * Main entry point into the test program.
      */
     public static void main(String[] args) {
-        // Factory method makes the appropriate type of Set subclass.
+        // Factory method makes the Set subclass object.
         SimpleAbstractSet<String> set =
             makeSet(args.length == 0 ? "HashSet" : args[0]);
 
