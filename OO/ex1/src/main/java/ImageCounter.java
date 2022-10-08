@@ -1,9 +1,9 @@
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import utils.ConcurrentHashSet;
 import utils.Options;
 
-import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap.KeySetView;
 
 /**
  * This class counts the number of images in a recursively-defined
@@ -20,8 +20,8 @@ class ImageCounter {
     /**
      * A cache of unique URIs that have already been processed.
      */
-    private final ConcurrentHashSet<String> mUniqueUris =
-        new ConcurrentHashSet<>();
+    private final KeySetView<Object, Boolean> mUniqueUris =
+        ConcurrentHashMap.newKeySet();
 
     /**
      * Constructor counts all the images reachable from the root URI.
@@ -63,7 +63,7 @@ class ImageCounter {
         // Atomically check to see if we've already visited this URL
         // and add the new url to the hashset, so we don't try to
         // revisit it again unnecessarily.
-        else if (!mUniqueUris.putIfAbsent(pageUri)) {
+        else if (!mUniqueUris.add(pageUri)) {
             print(TAG 
                   + "[Depth"
                   + depth

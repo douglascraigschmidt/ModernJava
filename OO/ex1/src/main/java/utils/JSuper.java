@@ -19,7 +19,7 @@ public class JSuper {
      * Keeps track of whether we're crawling a remote (web-based) or
      * local (filesystem-based) directory structure.
      */
-    private boolean mIsLocal;
+    private final boolean mIsLocal;
 
     /**
      * Constructor initializes the field.

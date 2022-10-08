@@ -1,19 +1,49 @@
-import utils.Options;
+import sets.SimpleAbstractSet;
+import sets.SimpleConcurrentHashSet;
+import sets.SimpleHashSet;
+import sets.SimpleTreeSet;
 
 /**
- * This example shows how to count the number of images in a
- * recursively-defined folder structure using basic Java
- * object-oriented features.
+ * This class illustrates how inheritance and dynamic binding works in
+ * Java.  It uses a simplified hierarchy of *Set classes that are
+ * implemented by the corresponding "real" Java classes.
  */
 public class ex0 {
     /**
-     * This static main() entry point runs the example.
+     * Factory method that creates the designated {@code mapType}.
+     */
+    private static SimpleAbstractSet<String> makeSet(String mapType) {
+        return switch (mapType) {
+            case "HashSet" -> new SimpleHashSet<>();
+            case "TreeSet" -> new SimpleTreeSet<>();
+            case "ConcurrentHashSet" -> new SimpleConcurrentHashSet<>();
+            default -> throw new IllegalArgumentException();
+        };
+    }
+	
+    /**
+     * Main entry point into the test program.
      */
     public static void main(String[] args) {
-        // Initializes the Options singleton.
-        Options.instance().parseArgs(args);
+        // Factory method makes the appropriate type of Set subclass.
+        SimpleAbstractSet<String> set =
+            makeSet(args.length == 0 ? "HashSet" : args[0]);
 
-        // Create an object that count the images.
-        new ImageCounter();
+        // Add some elements to the set.
+        set.add("I");
+        set.add("am");
+        set.add("Ironman");
+
+        if (set.add("Ironman"))
+            System.out.println("add() failed");
+
+        if (set.contains("I")
+            || set.contains("am")
+            || set.contains("Ironman"))
+            System.out.println("contains() failed");
+
+        // Print out the key/values pairs in the Set.
+        for (String s : set)
+            System.out.println("next item = " + s);
     }
 }
