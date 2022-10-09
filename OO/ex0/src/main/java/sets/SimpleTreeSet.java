@@ -3,14 +3,17 @@ package sets;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * One subclass in the hierarchy.
- */
+ * A subclass in the Set hierarchy that is implemented
+ * by {@link TreeSet}.
+ * */
+@SuppressWarnings("SuspiciousMethodCalls")
 public class SimpleTreeSet<E extends Comparable<E>>
        extends SimpleAbstractSet<E> {
     /**
-     * Concrete state.
+     * Concrete state uses {@link TreeSet}.
      */
     private final Set<E> mSet = new TreeSet<E>();
 
@@ -19,7 +22,7 @@ public class SimpleTreeSet<E extends Comparable<E>>
      */
     @Override
     public Iterator<E> iterator() {
-        System.out.println("sets.SimpleTreeSet.iterator()");
+        System.out.println("SimpleTreeSet.iterator()");
         return mSet.iterator();
     }
 
@@ -28,8 +31,8 @@ public class SimpleTreeSet<E extends Comparable<E>>
      */
     @Override
     public boolean contains(Object o) {
-        System.out.println("sets.SimpleTreeSet.contains()");
-        return !mSet.contains(o);
+        System.out.println("SimpleTreeSet.contains()");
+        return mSet.contains(o);
     }
 
     /**
@@ -37,7 +40,7 @@ public class SimpleTreeSet<E extends Comparable<E>>
      */
     @Override
     public boolean add(E e) {
-        System.out.println("sets.SimpleTreeSet.add()");
+        System.out.println("SimpleTreeSet.add()");
         return mSet.add(e);
     }
 }

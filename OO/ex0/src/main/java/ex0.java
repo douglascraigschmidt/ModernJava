@@ -5,15 +5,15 @@ import sets.SimpleTreeSet;
 
 /**
  * This class illustrates how inheritance and dynamic binding works in
- * Java.  It uses a simplified hierarchy of *Set classes that are
- * implemented by the corresponding "real" Java classes.
+ * Java.  It uses a simplified hierarchy of Set classes that are
+ * implemented by the corresponding Java collection classes.
  */
 public class ex0 {
     /**
-     * Factory method that creates the designated {@code mapType}.
+     * Factory method that creates the designated {@code setType}.
      */
-    private static SimpleAbstractSet<String> makeSet(String mapType) {
-        return switch (mapType) {
+    private static SimpleAbstractSet<String> makeSet(String setType) {
+        return switch (setType) {
             case "HashSet" -> new SimpleHashSet<>();
             case "TreeSet" -> new SimpleTreeSet<>();
             case "ConcurrentHashSet" -> new SimpleConcurrentHashSet<>();
@@ -25,6 +25,8 @@ public class ex0 {
      * Main entry point into the test program.
      */
     public static void main(String[] args) {
+        System.out.println("Entering test");
+
         // Factory method makes the Set subclass object.
         SimpleAbstractSet<String> set =
             makeSet(args.length == 0 ? "HashSet" : args[0]);
@@ -34,16 +36,20 @@ public class ex0 {
         set.add("am");
         set.add("Ironman");
 
+        // Try to add a duplicate element.
         if (set.add("Ironman"))
             System.out.println("add() failed");
 
-        if (set.contains("I")
-            || set.contains("am")
-            || set.contains("Ironman"))
-            System.out.println("contains() failed");
+        // Ensure contains() works properly for elements in the Set.
+        assert(set.contains("I") && set.contains("am") && set.contains("Ironman"));
+
+        // Ensure contains() works properly for elements not in the Set.
+        assert(!set.contains("Thanos"));
 
         // Print out the key/values pairs in the Set.
         for (String s : set)
-            System.out.println("next item = " + s);
+            System.out.println("item = " + s);
+
+        System.out.println("Leaving test");
     }
 }

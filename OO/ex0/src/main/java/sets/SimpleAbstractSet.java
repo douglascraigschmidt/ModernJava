@@ -3,17 +3,18 @@ package sets;
 import java.util.Iterator;
 
 /**
- * Superclass for the Set hierarchy.
+ * Superclass for the Set hierarchy, which is a collect that
+ * contains no duplicate items.
  */
 public abstract class SimpleAbstractSet<E>
        implements Iterable<E> {
     /**
-     * Returns an iterator over the elements in this collection.
+     * Returns an {@link Iterator} over the elements in this collection.
      * There are no guarantees concerning the order in which the
      * elements are returned (unless this collection is an
      * instance of some class that provides a guarantee).
      *
-     * @return an <tt>Iterator</tt> over the elements in this collection
+     * @return an {@link Iterator} over the elements in this collection
      *
      * This abstract method must be overridden by concrete subclasses.
      */
@@ -26,7 +27,7 @@ public abstract class SimpleAbstractSet<E>
      * <tt>e</tt> such that
      * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
      *
-     * @param o element whose presence in this collection is to be tested
+     * @param o Element whose presence in this collection is tested
      * @return <tt>true</tt> if this collection contains the specified
      *         element
      *
@@ -38,7 +39,7 @@ public abstract class SimpleAbstractSet<E>
     /**
      * Adds the specified element to this set.
      *
-     * @param e element to be added
+     * @param e Element to be added
      * @return {@code true} if this set changed as a result of the call
      *
      * This abstract method must be overridden by concrete

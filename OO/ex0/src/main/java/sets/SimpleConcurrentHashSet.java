@@ -4,29 +4,25 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * One subclass in the hierarchy.
+ * A subclass in the Set hierarchy that is implemented
+ * by {@link ConcurrentHashMap.KeySetView}.
  */
+@SuppressWarnings("SuspiciousMethodCalls")
 public class SimpleConcurrentHashSet<E>
        extends SimpleAbstractSet<E> {
     /**
-     * Concrete state.
+     * Concrete state uses a {@link ConcurrentHashMap.KeySetView}.
      */
-    private final ConcurrentHashMap<E, Object> mMap =
-        new ConcurrentHashMap<>();
-
-    /**
-     * A dummy value object needed by ConcurrentHashMap.
-     */
-    private static final Object mDummyValue = 
-        new Object();
+    private final ConcurrentHashMap.KeySetView<E, Boolean> mSet =
+        ConcurrentHashMap.newKeySet();
 
     /**
      * Override the superclass method.
      */
     @Override
     public Iterator<E> iterator() {
-        System.out.println("sets.SimpleConcurrentHashSet.iterator()");
-        return mMap.keySet().iterator();
+        System.out.println("SimpleConcurrentHashSet.iterator()");
+        return mSet.iterator();
     }
 
     /**
@@ -34,8 +30,8 @@ public class SimpleConcurrentHashSet<E>
      */
     @Override
     public boolean contains(Object o) {
-        System.out.println("sets.SimpleConcurrentHashSet.contains()");
-        return !mMap.containsKey(o);
+        System.out.println("SimpleConcurrentHashSet.contains()");
+        return mSet.contains(o);
     }
 
     /**
@@ -43,8 +39,8 @@ public class SimpleConcurrentHashSet<E>
      */
     @Override
     public boolean add(E e) {
-        System.out.println("sets.SimpleConcurrentHashSet.add()");
-        return mMap.put(e, mDummyValue) != null;
+        System.out.println("SimpleConcurrentHashSet.add()");
+        return mSet.add(e);
     }
 }
 	

@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
 
 /**
  * This example shows two method implementations that remove a string
- * from a list of strings.  One method uses traditional Java 7
- * features and the other uses basic modern Java features.
+ * from a list of strings.  One method uses classic Java 7 features
+ * and the other uses basic modern Java features.
  */
+@SuppressWarnings("SameParameterValue")
 public class ex0 {
     /**
      * The main entry point into this program.

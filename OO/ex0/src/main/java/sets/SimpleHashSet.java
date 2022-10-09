@@ -5,12 +5,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * One subclass in the hierarchy.
- */
+ * A subclass in the Set hierarchy that is implemented
+ * by {@link HashSet}. */
+@SuppressWarnings("SuspiciousMethodCalls")
 public class SimpleHashSet<E>
        extends SimpleAbstractSet<E> {
     /**
-     * Concrete state.
+     * Concrete state uses {@link HashSet}.
      */
     private final Set<E> mSet = new HashSet<>();
 
@@ -19,7 +20,7 @@ public class SimpleHashSet<E>
      */
     @Override
     public Iterator<E> iterator() {
-        System.out.println("sets.SimpleHashSet.iterator()");
+        System.out.println("SimpleHashSet.iterator()");
         return mSet.iterator();
     }
 
@@ -28,8 +29,8 @@ public class SimpleHashSet<E>
      */
     @Override
     public boolean contains(Object o) {
-        System.out.println("sets.SimpleHashSet.contains()");
-        return !mSet.contains(o);
+        System.out.println("SimpleHashSet.contains()");
+        return mSet.contains(o);
     }
 
     /**
@@ -37,7 +38,7 @@ public class SimpleHashSet<E>
      */
     @Override
     public boolean add(E e) {
-        System.out.println("sets.SimpleHashSet.add()");
+        System.out.println("SimpleHashSet.add()");
         return mSet.add(e);
     }
 }
