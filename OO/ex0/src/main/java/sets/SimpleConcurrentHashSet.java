@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A subclass in the Set hierarchy that is implemented
+ * A subclass in the {@code Simple*Set} hierarchy that is implemented
  * by {@link ConcurrentHashMap.KeySetView}.
  */
 @SuppressWarnings("SuspiciousMethodCalls")

@@ -4,9 +4,10 @@ import sets.SimpleHashSet;
 import sets.SimpleTreeSet;
 
 /**
- * This class illustrates how inheritance and dynamic binding works in
- * Java.  It uses a simplified hierarchy of Set classes that are
- * implemented by the corresponding Java collection classes.
+ * This example shows how data abstraction, inheritance, and dynamic
+ * binding work in object-oriented Java.  It defines a hierarchy of
+ * {@code Simple*Set} classes that are implemented by the
+ * corresponding Java {@link Set} collection classes.
  */
 public class ex0 {
     /**

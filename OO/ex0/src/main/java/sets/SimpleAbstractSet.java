@@ -3,8 +3,8 @@ package sets;
 import java.util.Iterator;
 
 /**
- * Superclass for the Set hierarchy, which is a collect that
- * contains no duplicate items.
+ * Superclass for the {@code Simple*Set} hierarchy, which provide
+ * collections that contain no duplicate items.
  */
 public abstract class SimpleAbstractSet<E>
        implements Iterable<E> {

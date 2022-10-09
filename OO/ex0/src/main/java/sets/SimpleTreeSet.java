@@ -6,9 +6,9 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A subclass in the Set hierarchy that is implemented
+ * A subclass in the {@code Simple*Set} hierarchy that is implemented
  * by {@link TreeSet}.
- * */
+ */
 @SuppressWarnings("SuspiciousMethodCalls")
 public class SimpleTreeSet<E extends Comparable<E>>
        extends SimpleAbstractSet<E> {

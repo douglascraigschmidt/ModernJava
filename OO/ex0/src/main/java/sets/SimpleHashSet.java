@@ -5,8 +5,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * A subclass in the Set hierarchy that is implemented
- * by {@link HashSet}. */
+ * A subclass in the {@code Simple*Set} hierarchy that is implemented
+ * by {@link HashSet}.
+ */
 @SuppressWarnings("SuspiciousMethodCalls")
 public class SimpleHashSet<E>
        extends SimpleAbstractSet<E> {
