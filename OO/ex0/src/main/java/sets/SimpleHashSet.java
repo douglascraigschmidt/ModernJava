@@ -3,6 +3,7 @@ package sets;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A subclass in the {@code Simple*Set} hierarchy that is implemented
@@ -12,35 +13,38 @@ import java.util.Set;
 public class SimpleHashSet<E>
        extends SimpleAbstractSet<E> {
     /**
-     * Concrete state uses {@link HashSet}.
+     * Constructor initializes the {@link Set} to use
+     * a {@link HashSet}.
      */
-    private final Set<E> mSet = new HashSet<>();
+    public SimpleHashSet() {
+        super(new HashSet<>());
+    }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public Iterator<E> iterator() {
         System.out.println("SimpleHashSet.iterator()");
-        return mSet.iterator();
+        return super.iterator();
     }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public boolean contains(Object o) {
         System.out.println("SimpleHashSet.contains()");
-        return mSet.contains(o);
+        return super.contains(o);
     }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public boolean add(E e) {
         System.out.println("SimpleHashSet.add()");
-        return mSet.add(e);
+        return super.add(e);
     }
 }
 	

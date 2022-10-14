@@ -1,5 +1,6 @@
 package sets;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -13,35 +14,38 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SimpleTreeSet<E extends Comparable<E>>
        extends SimpleAbstractSet<E> {
     /**
-     * Concrete state uses {@link TreeSet}.
+     * Constructor initializes the {@link Set} to use
+     * a {@link TreeSet}.
      */
-    private final Set<E> mSet = new TreeSet<E>();
+    public SimpleTreeSet() {
+        super(new TreeSet<>());
+    }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public Iterator<E> iterator() {
         System.out.println("SimpleTreeSet.iterator()");
-        return mSet.iterator();
+        return super.iterator();
     }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public boolean contains(Object o) {
         System.out.println("SimpleTreeSet.contains()");
-        return mSet.contains(o);
+        return super.contains(o);
     }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public boolean add(E e) {
         System.out.println("SimpleTreeSet.add()");
-        return mSet.add(e);
+        return super.add(e);
     }
 }
 	

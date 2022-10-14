@@ -1,6 +1,7 @@
 package sets;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -11,36 +12,38 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SimpleConcurrentHashSet<E>
        extends SimpleAbstractSet<E> {
     /**
-     * Concrete state uses a {@link ConcurrentHashMap.KeySetView}.
+     * Constructor initializes the {@link Set} to use
+     * a {@link ConcurrentHashMap.KeySetView}.
      */
-    private final ConcurrentHashMap.KeySetView<E, Boolean> mSet =
-        ConcurrentHashMap.newKeySet();
+    public SimpleConcurrentHashSet() {
+        super(ConcurrentHashMap.newKeySet());
+    }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public Iterator<E> iterator() {
         System.out.println("SimpleConcurrentHashSet.iterator()");
-        return mSet.iterator();
+        return super.iterator();
     }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public boolean contains(Object o) {
         System.out.println("SimpleConcurrentHashSet.contains()");
-        return mSet.contains(o);
+        return super.contains(o);
     }
 
     /**
-     * Override the superclass method.
+     * This method decorates the corresponding superclass method.
      */
     @Override
     public boolean add(E e) {
         System.out.println("SimpleConcurrentHashSet.add()");
-        return mSet.add(e);
+        return super.add(e);
     }
 }
 	

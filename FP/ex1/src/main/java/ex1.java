@@ -1,9 +1,10 @@
 import java.util.Random;
 
 /**
- * This example uses the Java streams framework to generate and check
- * sMAX_COUNT positive odd random numbers and print which are prime
- * and which are not.
+ * This example uses the Java streams framework to compose a pipeline
+ * of functions that generate and check sMAX_COUNT positive odd random
+ * numbers and print which are prime and which are not.  It also shows
+ * how to use the Java {@code record} type.
  */
 @SuppressWarnings("SameParameterValue")
 public class ex1 {
@@ -11,7 +12,7 @@ public class ex1 {
      * The number of positive odd random numbers to check for
      * primality.
      */
-    private static final int sMAX_COUNT = 100;
+    private static final int sMAX_COUNT = 20;
 
     /**
      * The main entry point into this program.
@@ -20,7 +21,7 @@ public class ex1 {
         // Generate and check sMAX_COUNT odd random numbers and print
         // which are prime and which are not.
         checkForPrimes(sMAX_COUNT);
-    }        
+    }
 
     /**
      * Define a Java record that holds the "plain old data" (POD) for
@@ -70,14 +71,14 @@ public class ex1 {
      *         else false
      */
     private static boolean isOdd(int integer) {
-        // Use the bit-wise or operator to determine if 'integer' is
+        // Use the bit-wise and operator to determine if 'integer' is
         // odd or not.
         return (integer & 1) == 1;
     }
 
     /**
      * Check if {@code primeCandidate} is prime or not.
-     * 
+     *
      * @param primeCandidate The number to check for primality
      * @return A {@link PrimeResult} record that contains the original
      * {@code primeCandidate} and either 0 if it's prime or its
@@ -100,7 +101,7 @@ public class ex1 {
         int n = primeCandidate;
 
         // Check if n is a multiple of 2.
-        if (n % 2 == 0) 
+        if (n % 2 == 0)
             // Return smallest factor for non-prime number.
             return 2;
 
@@ -124,12 +125,12 @@ public class ex1 {
      */
     private static void printResult(PrimeResult result) {
         // Check if number was not prime.
-        if (result.smallestFactor() != 0) 
+        if (result.smallestFactor() != 0)
             System.out.println(result.primeCandidate()
                                + " is not prime with smallest factor "
                                + result.smallestFactor());
         // The number is prime.
-        else 
+        else
             System.out.println(result.primeCandidate()
                                + " is prime");
     }
