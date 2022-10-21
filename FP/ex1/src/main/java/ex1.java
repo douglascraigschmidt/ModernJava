@@ -4,7 +4,8 @@ import java.util.Random;
  * This example uses the Java streams framework to compose a pipeline
  * of functions that generate and check sMAX_COUNT positive odd random
  * numbers and print which are prime and which are not.  It also shows
- * how to use the Java {@code record} type.
+ * how to use the Java {@code record} type to store immutable data
+ * fields.
  */
 @SuppressWarnings("SameParameterValue")
 public class ex1 {
@@ -24,25 +25,11 @@ public class ex1 {
     }
 
     /**
-     * Define a Java record that holds the "plain old data" (POD) for
-     * the result of a primality check.
-     */
-    record PrimeResult(/*
-                        * Value that was evaluated for primality.
-                        */
-                       int primeCandidate,
-
-                       /*
-                        * Result of the isPrime() method.
-                        */
-                       int smallestFactor) {}
-
-    /**
      * This method generates and checks {@code count} positive odd
      * random numbers and prints which are prime and which are not.
      *
-     * @param count The number of positive odd random numbers to
-     *              check for primality
+     * @param count The number of positive odd random numbers to check
+     *              for primality
      */
     static void checkForPrimes(int count) {
         new Random()
@@ -55,10 +42,10 @@ public class ex1 {
             // Check each odd number to see if it's prime.
             .mapToObj(ex1::checkIfPrime)
 
-            // Limit the stream to count items.
+            // Limit the stream to 'count' odd numbers.
             .limit(count)
 
-            // Print the results.
+            // Terminate the stream and print the results.
             .forEach(ex1::printResult);
     }
 
@@ -71,8 +58,8 @@ public class ex1 {
      *         else false
      */
     private static boolean isOdd(int integer) {
-        // Use the bit-wise and operator to determine if 'integer' is
-        // odd or not.
+        // Use the bit-wise and operator, which returns 'true' if
+        // 'integer' is odd and 'false' otherwise.
         return (integer & 1) == 1;
     }
 
@@ -81,8 +68,8 @@ public class ex1 {
      *
      * @param primeCandidate The number to check for primality
      * @return A {@link PrimeResult} record that contains the original
-     * {@code primeCandidate} and either 0 if it's prime or its
-     * smallest factor if it's not prime.
+     *         {@code primeCandidate} and either 0 if it's prime or
+     *         its smallest factor if it's not prime.
      */
     private static PrimeResult checkIfPrime(int primeCandidate) {
         // Return a record containing the prime candidate and the
@@ -92,25 +79,40 @@ public class ex1 {
     }
 
     /**
+     * Define a Java record that holds the "plain old data" (POD) for
+     * the result of a primality check.  Unlike a Java Object, a Java
+     * record contains no "hidden" fields, e.g., a vptr, intrinsic
+     * lock, intrinsic condition, etc.
+     */
+    record PrimeResult(/*
+                        * Value that was evaluated for primality.
+                        */
+                       int primeCandidate,
+
+                       /*
+                        * Result of calling {@code isPrime()} on
+                        * {@code primeCandidate}.
+                        */
+                        int smallestFactor) {}
+
+    /**
      * This method determines whether {@code primeCandidate} is prime.
      *
      * @param primeCandidate The number to check for primality
      * @return 0 if prime or the smallest factor if not prime
      */
     private static Integer isPrime(int primeCandidate) {
-        int n = primeCandidate;
-
-        // Check if n is a multiple of 2.
-        if (n % 2 == 0)
+        // Check if primeCandidate is a multiple of 2.
+        if (primeCandidate % 2 == 0)
             // Return smallest factor for non-prime number.
             return 2;
 
         // If not, then just check the odds for primality.
         for (int factor = 3;
-             factor * factor <= n;
+             factor * factor <= primeCandidate;
              // Skip over even numbers.
              factor += 2)
-            if (n % factor == 0)
+            if (primeCandidate % factor == 0)
                 // primeCandidate was not prime.
                 return factor;
 
