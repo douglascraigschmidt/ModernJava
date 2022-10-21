@@ -10,7 +10,7 @@ import java.util.stream.LongStream;
 public class ImmutableState {
     /**
      * Provides a baseline factorial implementation using a sequential
-     * Java Stream.
+     * Java Stream that doesn't leverage multiple cores.
      */
     public static class SequentialStreamFactorial {
         /**
@@ -38,8 +38,8 @@ public class ImmutableState {
 
     /**
      * Shows how the {@code reduce()} operation in the Java parallel
-     * streams framework avoids sharing mutable state between threads
-     * in the Java common fork-join pool.
+     * streams framework eliminates shared mutable state between
+     * threads in the Java common fork-join pool.
      */
     public static class ParallelStreamFactorial {
         /**

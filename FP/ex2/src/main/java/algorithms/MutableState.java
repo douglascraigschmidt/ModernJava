@@ -18,12 +18,12 @@ public class MutableState {
         /**
          * This class stores a running total of the factorial and
          * provides a (buggy) method to multiply this running total
-         * with a value of 'n'.
+         * by a value of 'n'.
          */
         static class Total {
             /**
-             * The running total of the factorial (shared mutable
-             * state).
+             * The running total of the factorial, which is shared
+             * mutable that's not protected by any synchronizer.
              */
             BigInteger mTotal = BigInteger.ONE;
 
@@ -62,11 +62,14 @@ public class MutableState {
                 .mapToObj(BigInteger::valueOf)
 
                 // Multiply each value in the stream by the running
-                // total, but 't' is not properly synchronized.
+                // total, but 't' has side effects that are not
+                // synchronized properly so race conditions will occur
+                // on multi-core processors.
                 .forEach(t::mult);
 
             // Return the total, which may incur memory visibility
-            // problems on a multi-core processor.
+            // problems on a multi-core processor since the calling
+            // thread is different from the pool of worker threads.
             return t.mTotal;
         }
     }
@@ -84,7 +87,9 @@ public class MutableState {
          */
         static class Total {
             /**
-             * The running total of the factorial.
+             * The running total of the factorial, which is shared
+             * mutable state protected by the Java intrinsic lock
+             * associated with an instance of Total.
              */
             BigInteger mTotal = BigInteger.ONE;
 
@@ -92,8 +97,9 @@ public class MutableState {
              * Multiply the running total by {@code n}.  
              */
             synchronized void mult(BigInteger n) {
-                // Although this synchronized method avoiding race
-                // conditions it incurs excessive lock contention.
+                // Although this synchronized method avoids race
+                // conditions it incurs excessive contention on
+                // the intrinsic lock.
                 mTotal = mTotal.multiply(n);
             }
 
@@ -134,8 +140,8 @@ public class MutableState {
                 // total, but 't' is inefficiently synchronized.
                 .forEach(t::mult);
 
-            // Return the total, which is will be visible the calling
-            // thread.
+            // Return the total, which will be visible the calling
+            // thread since it's protected by t's intrinsic lock.
             return t.get();
         }
     }
