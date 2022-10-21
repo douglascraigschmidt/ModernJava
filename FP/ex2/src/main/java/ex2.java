@@ -7,9 +7,9 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 /**
- * This program implements various ways of computing factorials for
+ * This program implements four ways of computing factorials for
  * BigIntegers to demonstrate the correctness and performance of
- * various parallel and sequential algorithms that use immutable or
+ * different parallel and sequential algorithms that use immutable or
  * mutable Java objects.  It also shows (1) the dangers of sharing
  * unsynchronized mutable state between threads and (2) the overhead
  * of excessive synchronization of shared mutable state.  Both Java
@@ -43,7 +43,7 @@ public class ex2 {
         // that the timing results will be more accurate.
         warmUpForkJoinThreads();
 
-        // Run the various factorial tests.
+        // Run the four factorial tests.
 
         // Provides a baseline factorial implementation using a
         // sequential Java Stream that doesn't leverage multiple
@@ -94,7 +94,7 @@ public class ex2 {
                                     Function<T, T> factorialAlgorithm,
                                     T n) {
         // Run the garbage collector to ensure each test starts out
-        // with all the available memory.
+        // with access to all available memory.
         System.gc();
 
         RunTimer
