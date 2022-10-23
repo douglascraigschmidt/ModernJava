@@ -6,11 +6,12 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * This class records the computation of method execution times.
+ * This class records how long methods take to execute and prints
+ * the results ordered from fastest to slowest execution times.
  */
 public class RunTimer {
     /**
-     * This {@link Map} tracks which method performed the best.
+     * This {@link Map} tracks how long each method took to execute.
      */
     private static final Map<String, Long> mResultsMap =
         new HashMap<>();

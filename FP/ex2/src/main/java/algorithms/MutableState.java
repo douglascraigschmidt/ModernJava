@@ -23,7 +23,7 @@ public class MutableState {
         static class Total {
             /**
              * The running total of the factorial, which is shared
-             * mutable that's not protected by any synchronizer.
+             * mutable state that's not protected by any synchronizer.
              */
             BigInteger mTotal = BigInteger.ONE;
 

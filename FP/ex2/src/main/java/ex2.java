@@ -12,9 +12,9 @@ import java.util.stream.IntStream;
  * different parallel and sequential algorithms that use immutable or
  * mutable Java objects.  It also shows (1) the dangers of sharing
  * unsynchronized mutable state between threads and (2) the overhead
- * of excessive synchronization of shared mutable state.  Both Java
- * sequential and parallel streams are used in this program to compose
- * both "pure" functions and functions with side effects.
+ * of excessive synchronization of shared mutable state.  Java
+ * sequential and parallel streams are used in this program to
+ * compose both "pure" functions and functions with side effects.
  */
 public class ex2 {
     /**
@@ -33,8 +33,9 @@ public class ex2 {
     public static void main(String[] args) {
         System.out.println("Starting Factorial Tests");
 
-        // Initialize to the default value or the value
-        // of argv[0] provided on the command-line.
+        // Initialize the factorial value to compute to either
+        // sDEFAULT_N or the value of argv[0] provided on
+        // the command-line by the user.
         final BigInteger n = args.length > 0
             ? BigInteger.valueOf(Long.parseLong(args[0]))
             : BigInteger.valueOf(sDEFAULT_N);
@@ -46,7 +47,7 @@ public class ex2 {
         // Run the four factorial tests.
 
         // Provides a baseline factorial implementation using a
-        // sequential Java Stream that doesn't leverage multiple
+        // Java sequential Stream that doesn't leverage multiple
         // cores.
         runTest("SequentialStreamFactorial",
                 ImmutableState.SequentialStreamFactorial::factorial,

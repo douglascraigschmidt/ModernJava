@@ -9,8 +9,8 @@ import java.util.stream.LongStream;
  */
 public class ImmutableState {
     /**
-     * Provides a baseline factorial implementation using a sequential
-     * Java Stream that doesn't leverage multiple cores.
+     * Provides a baseline factorial implementation using a Java
+     * sequential Stream that doesn't leverage multiple cores.
      */
     public static class SequentialStreamFactorial {
         /**
