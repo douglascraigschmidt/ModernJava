@@ -28,8 +28,8 @@ public class ex1 {
      * This method generates and checks {@code count} positive odd
      * random numbers and prints which are prime and which are not.
      *
-     * @param count The number of positive odd random numbers to check
-     *              for primality
+     * @param count The number of positive odd random numbers
+     *              to check for primality
      */
     static void checkForPrimes(int count) {
         new Random()

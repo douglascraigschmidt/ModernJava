@@ -63,7 +63,7 @@ public class ImageStreamParallel
 
             // Terminate the stream and collect the results into list
             // of images.
-            .collect(Collectors.toList());
+            .toList();
 
         System.out.println(TAG
                            + ": processing of "
