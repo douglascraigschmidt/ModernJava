@@ -13,3 +13,15 @@ Here's an overview of what's currently included in these examples:
 . ex1 - This example use the Java streams framework to generate and
         check sMAX_COUNT positive odd random numbers and print which
         are prime and which are not.
+
+. ex2 - This program implements four ways of computing factorials for
+        BigIntegers to demonstrate the correctness and performance of
+        different parallel and sequential algorithms that use
+        immutable or mutable Java objects.  It also shows (1) the
+        dangers of sharing unsynchronized mutable state between
+        threads and (2) the overhead of excessive synchronization of
+        shared mutable state.  Java sequential and parallel streams
+        are used in this program to compose both "pure" functions and
+        functions with side effects.
+
+. ex3 - 

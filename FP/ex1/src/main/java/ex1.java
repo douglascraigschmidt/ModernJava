@@ -1,11 +1,12 @@
 import java.util.Random;
 
 /**
- * This example uses the Java streams framework to compose a pipeline
- * of functions that generate and check sMAX_COUNT positive odd random
- * numbers and print which are prime and which are not.  It also shows
- * how to use the Java {@code record} type to store immutable data
- * fields.
+ * This example demonstrates the benefits of "pure" function
+ * composition in modern Java.  It uses the Java streams framework to
+ * compose a pipeline of functions that generate and check sMAX_COUNT
+ * positive odd random numbers and print which are prime and which are
+ * not.  It also shows how to use the Java {@code record} type to
+ * store immutable data fields.
  */
 @SuppressWarnings("SameParameterValue")
 public class ex1 {
