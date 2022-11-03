@@ -5,10 +5,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
- * This class defines a "memoizing" cache that maps a key to the value
- * produced by a {@link Function} argument passed to the constructor.
+ * This class defines a "memoizing" cache that demonstrates how shared
+ * mutable state can optimize the performance of a concurrent Java
+ * program.  An instance of {@link Memoizer} maps a key to the value
+ * produced by a {@link Function} argument passed to its constructor.
  * If a value has previously been computed it is returned rather than
- * calling the function to compute it again.  
+ * calling the function to compute it again.
  *
  * The Java {@link ConcurrentHashMap} {@code computeIfAbsent()} method
  * is used to ensure only a single call to the function is run when a
@@ -52,8 +54,10 @@ public class Memoizer<K, V> {
      * @param key The {@code key} in the {@link Map}
      * @return The value associated with {@code key} in cache
      */
-    public V apply(final K key) {
-        return mCache.computeIfAbsent(key, mFunction);
+    public V get(final K key) {
+        return mCache
+            // An atomic "check-then-act" method.
+            .computeIfAbsent(key, mFunction);
     }
 
     /**

@@ -1,22 +1,28 @@
 import utils.Memoizer;
+import utils.Options;
+import utils.RunTimer;
 
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 /**
  * This example demonstrates benefits of combining object-oriented and
  * functional programming in modern Java.  It uses the Java parallel
- * streams framework to compose a pipeline of functions that generate
- * and check {@code sMAX_COUNT} positive odd random numbers in
- * parallel and print which are prime and which are not.
+ * streams framework to compose a pipeline of functions (i.e.,
+ * aggregate operations) that check {@code sMAX_COUNT} positive odd
+ * random numbers in parallel to determine which are prime and which
+ * aren't.
  *
- * A {@link Memoizer} cache is used to optimize performance by
- * returning results from previous primality checks rather than
- * recomputing them again.  Although this cache is mutable shared
- * state, it works correctly and efficiently since the Java {@link
- * ConcurrentHashMap} concurrent collection is used in the {@link
- * Memoizer} implementation.
+ * An object-oriented {@link Memoizer} cache is used to optimize
+ * performance by returning results from previous (duplicate)
+ * primality checks rather than recomputing them again.  Although this
+ * cache is mutable state shared between multiple threads, it works
+ * correctly and efficiently since the Java {@link ConcurrentHashMap}
+ * concurrent collection is used in the {@link Memoizer}
+ * implementation.
  *
  * This example also shows how to use the Java {@code record} type to
  * store immutable data fields.
@@ -27,14 +33,50 @@ public class ex3 {
      * The number of positive odd random numbers to check for
      * primality.
      */
-    private static final int sMAX_COUNT = 20;
+    private static final int sMAX_COUNT = 2_000_000;
 
     /**
-     * Records the number of calls to isPrime() to demonstrate the
-     * benefits of using a {@link Memoizer} cache.
+     * Records the number of calls to {@code isPrime()} to demonstrate
+     * the benefits of using a {@link Memoizer} cache.
      */
-    private static final AtomicInteger mNonDuplicateCount =
+    private static final AtomicInteger sNonDuplicateCount =
         new AtomicInteger();
+
+    /**
+     * Records the total count of prime numbers found during the
+     * checks.
+     */
+    private static final AtomicInteger sPrimeCount =
+        new AtomicInteger();
+
+    /**
+     * A {@link List} of {@code sMAX_COUNT} odd random numbers.
+     */
+    private static final List<Integer> sRandomNumbers =
+        generateOddRandomNumbers(new Random(), sMAX_COUNT);
+
+    /**
+     * A "memoizing" cache that demonstrates how shared mutable state
+     * can optimize the performance of a concurrent Java program.
+     */
+    private static final Memoizer<Integer, Integer> sMemoizer =
+        new Memoizer<>(ex3::isPrime);
+
+    /**
+     * A {@link Function} that uses a {@link Memoizer} to check an
+     * {@link Integer} for primality.
+     */
+    private static final Function<Integer,
+                                  PrimeResult> sMemoized = primeCandidate ->
+        checkIfPrime(primeCandidate, sMemoizer);
+
+    /**
+     * A {@link Function} that does not use a {@link Memoizer} to
+     * check an {@link Integer} for primality.
+     */
+    private static final Function<Integer,
+                                  PrimeResult> sNotMemoized = primeCandidate ->
+        checkIfPrime(primeCandidate, null);
 
     /**
      * The main entry point into this program.
@@ -42,55 +84,84 @@ public class ex3 {
     static public void main(String[] argv) {
         ex3.display("Entering test for primality of " + sMAX_COUNT + " numbers");
 
-        // Generate and check sMAX_COUNT odd random numbers in
-        // parallel and print which are prime and which are not.
-        checkForPrimes(sMAX_COUNT);
+        Options.instance().parseArgs(argv);
 
-        ex3.display("Leaving test with "
-                    + (sMAX_COUNT - mNonDuplicateCount.get())
-                    + " duplicates");
+        // Warmup the cache, but does not record the time taken to
+        // perform the computations.
+        checkForPrimes(sRandomNumbers, sNotMemoized);
+
+        // Print the statistics for the memoized version.
+        printStatistics("memoized");
+
+        RunTimer
+                // Record the time needed to perform the computations.
+                .timeRun(() ->
+                                // Do not use a memoizer to check odd random
+                                // numbers in parallel to determine which are
+                                // prime and which aren't.
+                                checkForPrimes(sRandomNumbers,
+                                        sNotMemoized),
+                        "checkForPrimes not-memoized");
+
+        // Print the statistics for the non-memoized version.
+        printStatistics("not-memoized");
+
+        RunTimer
+                // Record the time needed to perform the computations.
+                .timeRun(() ->
+                                // Use a memoizer to check odd random numbers in
+                                // parallel to determine which are prime and
+                                // which aren't.
+                                checkForPrimes(sRandomNumbers,
+                                        sMemoized),
+                        "checkForPrimes() memoized");
+
+        RunTimer
+            // Record the time needed to perform the computations.
+            .timeRun(() ->
+                     // Use a memoizer to check odd random numbers in
+                     // parallel to determine which are prime and
+                     // which aren't.
+                     checkForPrimes(sRandomNumbers,
+                                    sMemoized),
+                     "checkForPrimes() all memoized");
+
+        // Print the statistics for the memoized version.
+        printStatistics("all memoized");
+
+        // Print the timing results.
+        System.out.println(RunTimer.getTimingResults());
     }
 
     /**
-     * This method generates and checks {@code count} positive odd
-     * random numbers in parallel and prints which are prime and which
-     * are not.
+     * Check a {@link List} of positive odd random numbers in parallel
+     * and print which are prime and which aren't.
      *
-     * @param count The number of positive odd random numbers
-     *              to check for primality
+     * @param randomNumbers The {@link List} of positive odd random
+     *                      numbers to check for primality
+     * @param primeChecker The {@link Function} that checks for
+     *                     primality
      */
-    static void checkForPrimes(int count) {
-        // Use a Memoizer to accelerate the primality determination.
-        Memoizer<Integer, Integer> memoizer =
-            new Memoizer<>(ex3::isPrime);
+    static void checkForPrimes(List<Integer> randomNumbers,
+                               Function<Integer, PrimeResult> primeChecker) {
+        // Reset the counters.
+        sNonDuplicateCount.set(0);
+        sPrimeCount.set(0);
 
-        new Random()
-            // Generate an infinite stream of random positive ints in
-            // a range that tries to ensure duplicates.
-            .ints(Integer.MAX_VALUE - count,
-                  Integer.MAX_VALUE)
+        randomNumbers
+            // Convert List into a parallel stream.
+            .parallelStream()
 
-            // Convert into a parallel stream.
-            .parallel()
+            // Check each number to see if it's prime.
+            .map(primeChecker)
 
-            // Only allow odd numbers.
-            .filter(ex3::isOdd)
-
-            // Check each odd number to see if it's prime.
-            .mapToObj(oddNumber ->
-                      checkIfPrime(oddNumber, 
-                                   memoizer))
-
-            // Limit the stream to 'count' odd numbers.
-            .limit(count)
-
-            // Terminate the stream and print the results.
-            .forEach(ex3::printResult);
+            // Trigger intermediate operations and handle the results.
+            .forEach(ex3::handleResults);
     }
 
     /**
-     * This method returns true if the {@code integer} param is an odd
-     * number, else false.
+     * This predicate returns true if the {@code integer} param is an
+     * odd number, else false.
      *
      * @param integer The parameter to check for oddness
      * @return true if the {@code integer} param is an odd number,
@@ -106,6 +177,8 @@ public class ex3 {
      * Check if {@code primeCandidate} is prime or not.
      *
      * @param primeCandidate The number to check for primality
+     * @param A "memoizing" cache that optimizes performance for
+     *        primality checking
      * @return A {@link PrimeResult} record that contains the original
      *         {@code primeCandidate} and either 0 if it's prime or
      *         its smallest factor if it's not prime.
@@ -115,9 +188,13 @@ public class ex3 {
         // Return a record containing the prime candidate and the
         // result of checking if it's prime.
         return new PrimeResult(primeCandidate,
-                               // Apply the memoizer to accelerate
-                               // primality determination.
-                               memoizer.apply(primeCandidate));
+                               memoizer != null
+                               // Get the result from memoizer to
+                               // accelerate primality determination.
+                               ? memoizer.get(primeCandidate)
+
+                               // Call the isPrime() method directly.
+                               : isPrime(primeCandidate));
     }
 
     /**
@@ -138,15 +215,16 @@ public class ex3 {
                        int smallestFactor) {}
 
     /**
-     * This method determines whether {@code primeCandidate} is prime.
+     * Determine whether {@code primeCandidate} is prime and
+     * return the result.
      *
      * @param primeCandidate The number to check for primality
      * @return 0 if prime or the smallest factor if not prime
      */
     private static Integer isPrime(int primeCandidate) {
-        // Increment the count of non-duplicates, i.e.,
-        // integers that weren't found in the Memoizer cache.
-        mNonDuplicateCount.incrementAndGet();
+        // Increment the count of non-duplicates, i.e., integers that
+        // weren't found in the Memoizer cache.
+        sNonDuplicateCount.incrementAndGet();
 
         // Check if primeCandidate is a multiple of 2.
         if (primeCandidate % 2 == 0)
@@ -167,21 +245,54 @@ public class ex3 {
     }
 
     /**
-     * Print the {@code result}
+     * Returns a {@link List} of {@code count} odd random numbers
+     * containing duplicates.
+     *
+     * @param random The {@link Random} number generator
+     * @param count The number of odd random numbers to generate
+     * @return A {@link List} of {@code count} odd random numbers
+     *         containing duplicates
+     */
+    static List<Integer> generateOddRandomNumbers(Random random,
+                                                  int count) {
+        return random
+            // Generate an infinite stream of random positive ints in
+            // a range that tries to ensure duplicates.
+            .ints( Integer.MAX_VALUE - count,
+                   Integer.MAX_VALUE)
+
+            // Eliminate even numbers.
+            .filter(ex3::isOdd)
+
+            // Limit to 'count' odd random numbers.
+            .limit(count)
+
+            // Convert the ints into Integers.
+            .boxed()
+
+            // Trigger intermediate operations and collect the results
+            // into a List.
+            .toList();
+    }
+    /**
+     * Print the {@code result}.
      *
      * @param result The result of checking if a number is prime
      */
-    private static void printResult(PrimeResult result) {
+    private static void handleResults(PrimeResult result) {
         // Check if number was not prime.
-        if (result.smallestFactor() != 0)
-            ex3.display(
-                        + result.primeCandidate()
-                        + " is not prime with smallest factor "
-                        + result.smallestFactor());
-        // The number is prime.
-        else
-            ex3.display(+ result.primeCandidate()
-                        + " is prime");
+        if (result.smallestFactor() != 0) {
+            Options.display(result.primeCandidate()
+                                + " is not prime with smallest factor "
+                                + result.smallestFactor());
+
+        } else {
+            // Increment the count of prime numbers.
+            sPrimeCount.getAndIncrement();
+
+            Options.display(result.primeCandidate()
+                            + " is prime");
+        }
     }
 
     /**
@@ -195,6 +306,20 @@ public class ex3 {
                            + Thread.currentThread().getId()
                            + "] "
                            + output);
+    }
+
+    /**
+     * Print statistics about the test run.
+     *
+     * @param testName Name of the test
+     */
+    private static void printStatistics(String testName) {
+        ex3.display(sPrimeCount
+                    + " prime #'s and "
+                    + sNonDuplicateCount.get()
+                    + " isPrime() calls in "
+                    + testName
+                    + " test");
     }
 }
 

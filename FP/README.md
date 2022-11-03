@@ -24,4 +24,8 @@ Here's an overview of what's currently included in these examples:
         are used in this program to compose both "pure" functions and
         functions with side effects.
 
-. ex3 - 
+. ex3 - This example demonstrates benefits of combining
+        object-oriented and functional programming in modern Java.  It
+        uses the Java parallel streams framework to compose a pipeline
+        of functions that check sMAX_COUNT positive odd random numbers
+        in parallel to determine which are prime and which are not.
