@@ -67,7 +67,7 @@ public class ex3 {
      * {@link Integer} for primality.
      */
     private static final Function<Integer,
-                                  PrimeResult> sMemoized = primeCandidate ->
+        PrimeResult> sMemoized = primeCandidate ->
         checkIfPrime(primeCandidate, sMemoizer);
 
     /**
@@ -75,7 +75,7 @@ public class ex3 {
      * check an {@link Integer} for primality.
      */
     private static final Function<Integer,
-                                  PrimeResult> sNotMemoized = primeCandidate ->
+        PrimeResult> sNotMemoized = primeCandidate ->
         checkIfPrime(primeCandidate, null);
 
     /**
@@ -90,31 +90,31 @@ public class ex3 {
         // perform the computations.
         checkForPrimes(sRandomNumbers, sNotMemoized);
 
-        // Print the statistics for the memoized version.
-        printStatistics("memoized");
-
         RunTimer
-                // Record the time needed to perform the computations.
-                .timeRun(() ->
-                                // Do not use a memoizer to check odd random
-                                // numbers in parallel to determine which are
-                                // prime and which aren't.
-                                checkForPrimes(sRandomNumbers,
-                                        sNotMemoized),
-                        "checkForPrimes not-memoized");
+            // Record the time needed to perform the computations.
+            .timeRun(() ->
+                     // Do not use a memoizer to check odd random
+                     // numbers in parallel to determine which are
+                     // prime and which aren't.
+                     checkForPrimes(sRandomNumbers,
+                                    sNotMemoized),
+                     "checkForPrimes not-memoized");
 
         // Print the statistics for the non-memoized version.
         printStatistics("not-memoized");
 
         RunTimer
-                // Record the time needed to perform the computations.
-                .timeRun(() ->
-                                // Use a memoizer to check odd random numbers in
-                                // parallel to determine which are prime and
-                                // which aren't.
-                                checkForPrimes(sRandomNumbers,
-                                        sMemoized),
-                        "checkForPrimes() memoized");
+            // Record the time needed to perform the computations.
+            .timeRun(() ->
+                     // Use a memoizer to check odd random numbers in
+                     // parallel to determine which are prime and
+                     // which aren't.
+                     checkForPrimes(sRandomNumbers,
+                                    sMemoized),
+                     "checkForPrimes() memoized");
+
+        // Print the statistics for the memoized version.
+        printStatistics("memoized");
 
         RunTimer
             // Record the time needed to perform the computations.
@@ -177,7 +177,7 @@ public class ex3 {
      * Check if {@code primeCandidate} is prime or not.
      *
      * @param primeCandidate The number to check for primality
-     * @param A "memoizing" cache that optimizes performance for
+     * @param memoizer A "memoizing" cache that optimizes performance for
      *        primality checking
      * @return A {@link PrimeResult} record that contains the original
      *         {@code primeCandidate} and either 0 if it's prime or
@@ -283,8 +283,8 @@ public class ex3 {
         // Check if number was not prime.
         if (result.smallestFactor() != 0) {
             Options.display(result.primeCandidate()
-                                + " is not prime with smallest factor "
-                                + result.smallestFactor());
+                            + " is not prime with smallest factor "
+                            + result.smallestFactor());
 
         } else {
             // Increment the count of prime numbers.

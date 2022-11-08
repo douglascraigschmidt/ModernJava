@@ -29,3 +29,18 @@ Here's an overview of what's currently included in these examples:
         uses the Java parallel streams framework to compose a pipeline
         of functions that check sMAX_COUNT positive odd random numbers
         in parallel to determine which are prime and which are not.
+
+. ex4 - This example shows various ways to create a Java Thread and
+        pass a Runnable lambda expression to it.
+
+. ex5 - This example shows how to sort elements in a collection using
+        a Java anonymous inner class, lambda expression, and method
+        reference.  It also shows how to use the modern Java forEach()
+        method for Streams and collections.
+
+. ex6 - This example shows how to use modern Java lambda expressions
+        to create a closure, which is a persistent scope that holds on
+        to local variables even after the code execution has moved out
+        of that block.
+
+
