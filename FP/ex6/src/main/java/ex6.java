@@ -2,8 +2,9 @@
  * This example shows how to use modern Java lambda expressions to
  * create a closure, which is a persistent scope that holds on to
  * local variables even after the code execution has moved out of that
- * block, as described at
- * <a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">this link</a>.
+ * block, as described at <a
+ * href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">this
+ * link</a>.
  */
 public class ex6 {
     /**
@@ -18,9 +19,9 @@ public class ex6 {
 
         /**
          * This factory method creates a closure that will run in a
-         * background thread.
+         * background {@link Thread}.
          *
-         * @return The background thread reference
+         * @return The background {@link Thread} reference
          */
         Thread makeThreadClosure(String string, int n) {
             // Create and return a new Thread whose runnable lambda
@@ -31,16 +32,17 @@ public class ex6 {
         }
 
         /**
-         * The constructor creates/starts/runs a thread closure.
+         * The constructor creates/starts/runs a {@link Thread}
+         * closure.
          */
         ClosureExample() throws InterruptedException {
-            // Create a thread closure.
+            // Create a Thread closure.
             Thread t = makeThreadClosure("result = ", 10);
 
-            // Start the thread.
+            // Start the Thread.
             t.start();
 
-            // Join when the thread is finished.
+            // Join when the Thread is finished.
             t.join();
         }
     }

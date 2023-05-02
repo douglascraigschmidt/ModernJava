@@ -10,6 +10,7 @@ import java.util.stream.Stream;
  * reference.  It also shows how to use the modern Java forEach()
  * method for Streams and collections.
  */
+@SuppressWarnings("Convert2MethodRef")
 public class ex5 {
     /**
      * The array to sort and print.
@@ -44,18 +45,18 @@ public class ex5 {
         System.out.println("Original array:\n"
                            + List.of(sNameArray));
         // Show how to sort using an anonymous inner class.
-        showInnerClass(sArrayCopy.get());
+        sortInnerClass(sArrayCopy.get());
 
         // Show how to sort using a lambda expression.
-        showLambdaExpression(sArrayCopy.get());
+        sortLambdaExpression(sArrayCopy.get());
 
         // Show how to sort and print using a method reference and the
         // modern Java Stream forEach() method.
-        showMethodReference1(sArrayCopy.get());
+        sortMethodReference1(sArrayCopy.get());
 
         // Show how to sort and print using a method reference and the
         // modern Java Iterable forEach() method.
-        showMethodReference2(sArrayCopy.get());
+        sortMethodReference2(sArrayCopy.get());
 
         System.out.println("\nLeaving test");
     }
@@ -63,8 +64,8 @@ public class ex5 {
     /**
      * Show how to sort using an anonymous inner class.
      */
-    private static void showInnerClass(String[] nameArray) {
-        System.out.println("showInnerClass()");
+    private static void sortInnerClass(String[] nameArray) {
+        System.out.println("sortInnerClass()");
 
         // Sort using an anonymous inner class.
         Arrays.sort(nameArray, new Comparator<String>() {
@@ -82,8 +83,8 @@ public class ex5 {
     /**
      * Show how to sort using a lambda expression.
      */
-    private static void showLambdaExpression(String[] nameArray) {
-        System.out.println("showLambdaExpression()");
+    private static void sortLambdaExpression(String[] nameArray) {
+        System.out.println("sortLambdaExpression()");
 
         // Sort using a lambda expression.
         Arrays.sort(nameArray,
@@ -98,8 +99,8 @@ public class ex5 {
      * Show how to sort and print using a method reference and the
      * modern Java Stream {@code forEach()} method.
      */
-    private static void showMethodReference1(String[] nameArray) {
-        System.out.println("showMethodReference1()");
+    private static void sortMethodReference1(String[] nameArray) {
+        System.out.println("sortMethodReference1()");
 
         // Sort using a method reference.
         Arrays.sort(nameArray,
@@ -118,8 +119,8 @@ public class ex5 {
      * Show how to sort and print using a method reference and the
      * modern Java Iterable {@code forEach()} method.
      */
-    private static void showMethodReference2(String[] nameArray) {
-        System.out.println("\nshowMethodReference2()");
+    private static void sortMethodReference2(String[] nameArray) {
+        System.out.println("\nsortMethodReference2()");
 
         // Sort using a method reference.
         Arrays.sort(nameArray,

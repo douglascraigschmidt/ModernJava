@@ -15,6 +15,8 @@ public class ex4 {
         // lambda expressions.
         threadSimpleHelloWorld();
         threadRunnableVariable();
+
+        // Ensure the results are correct.
         assert threadEffectivelyFinal() == 42;
         assert threadCompileError() == 0;
         assert threadOneElementArray() == 42;
@@ -28,17 +30,17 @@ public class ex4 {
      * classic "hello world" greeting using an anonymous lambda.
      */
     private static void threadSimpleHelloWorld() throws InterruptedException {
-        // Create a new Thread that is passed a Runnable lambda to
+        // Create and start new Thread that is passed a Runnable lambda to
         // execute.
-        Thread t = new Thread(() -> ex4.display("hello world"));
+        Thread t = startNewThread
+                (() -> ex4.display("hello world"));
 
-        // Start Thread 't'.
-        t.start();
+        ex4.display("Block until Thread is done");
 
         // Block until Thread 't' is done.
         t.join();
     }
- 
+
     /**
      * This method creates a Java {@link Thread} that displays the
      * classic "hello world" greeting using a {@link Runnable} lambda
@@ -48,11 +50,10 @@ public class ex4 {
         // Assign a Runnable lambda to a local variable.
         Runnable r = () -> ex4.display("hello world");
 
-        // Create a new Thread that executes Runnable 'r'.
-        Thread t = new Thread(r);
+        // Create and start a new Thread that executes Runnable 'r'.
+        Thread t = startNewThread(r);
 
-        // Start Thread 't'.
-        t.start();
+        ex4.display("Block until Thread is done");
 
         // Block until Thread 't' is done.
         t.join();
@@ -68,11 +69,10 @@ public class ex4 {
 
         // Create a new Thread that displays a messaging containing
         // the value in an effectively final variable.
-        Thread t = new Thread(() -> 
+        Thread t = startNewThread(() ->
                               ex4.display("The answer is " + answer));
 
-        // Start Thread 't'.
-        t.start();
+        ex4.display("Block until Thread is done");
 
         // Block until Thread 't' is done.
         t.join();
@@ -90,16 +90,15 @@ public class ex4 {
         // Initialize a local non-final variable.
         int answer = 0;
 
-        Thread t = new Thread(() -> {
-                // If 'answer = 42;' is uncommented the code won't
+        Thread t = startNewThread(() -> {
+                // If 'answer = 42;' is uncommented, the code won't
                 // compile since the 'answer' local variable can't be
                 // modified in the Runnable lambda.
                 // answer = 42;
                 ex4.display("The answer is " + answer);
         });
 
-        // Start Thread 't'.
-        t.start();
+        ex4.display("Block until Thread is done");
 
         // Block until Thread 't' is done.
         t.join();
@@ -117,19 +116,18 @@ public class ex4 {
         // Create and initialize a one-element array.
         int[] answer = new int[1];  
 
-        // Create a new Thread.
-        Thread t = new Thread(() -> {
+        // Create and start a new Thread.
+        Thread t = startNewThread(() -> {
                 // Set 'answer[0]' to 42, which is allowed since
                 // 'answer[0]' accesses an object that can be
-                // modified, even though answer can't be modified.
+                // modified, even though 'answer' can't be modified.
                 answer[0] = 42;
 
                 // Display the value of 'answer[0]'.
                 ex4.display("The answer is " + answer[0]);
         });
 
-        // Start Thread 't'.
-        t.start();
+        ex4.display("Block until Thread is done");
 
         // Block until Thread 't' is done.
         t.join();
@@ -152,7 +150,7 @@ public class ex4 {
         AtomicInteger answer = new AtomicInteger(0);
 
         // Create and start a new Thread.
-        Thread t = new Thread(() -> {
+        Thread t = startNewThread(() -> {
                 // Set the value of 'answer' to 42, which is allowed
                 // since 'answer' is an AtomicInteger whose value can
                 // be modified.
@@ -162,8 +160,7 @@ public class ex4 {
                 ex4.display("The answer is " + answer.get());
         });
 
-        // Start Thread 't'.
-        t.start();
+        ex4.display("Block until Thread is done");
 
         // Block until Thread 't' is done.
         t.join();
@@ -174,6 +171,25 @@ public class ex4 {
     }
 
     /**
+     * Create and start a new Thread that is passed a {@link Runnable}
+     * lambda to execute.
+     *
+     * @param runnable The {@link Runnable} to execute.
+     * @return A started {@link Thread} that is passed the {@link Runnable}
+     */
+    private static Thread startNewThread(Runnable runnable) {
+        // Create a new Thread that is passed a Runnable lambda to
+        // execute.
+        Thread t = new Thread(runnable);
+
+        // Start Thread 't'.
+        t.start();
+
+        // Return the started Thread.
+        return t;
+    }
+
+    /**
      * Display the {@code output} after prepending the current {@link
      * Thread} id.
 
@@ -181,7 +197,7 @@ public class ex4 {
      */
     private static void display(String output) {
         System.out.println("["
-                           + Thread.currentThread().getId()
+                           + Thread.currentThread().threadId()
                            + "] "
                            + output);
     }
