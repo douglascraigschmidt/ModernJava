@@ -72,7 +72,7 @@ public class ThreadJoinTest
         // List of Thread objects that each run the processInput()
         // method reference.  These Thread objects will be joined
         // after they process the input String objects.
-        List<Thread> workerThreads =
+        var workerThreads =
             makeWorkerThreads(this::processInput);
 
         // Iterate through the List of Thread objects and start a
