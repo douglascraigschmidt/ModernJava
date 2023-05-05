@@ -33,14 +33,14 @@ public class PrimeUtils {
     public static PrimeResult checkIfPrime
         (Integer primeCandidate,
          Map<Integer, Integer> primeCache) {
-        var primeResult = primeCache
+        var smallestFactor = primeCache
             .computeIfAbsent(primeCandidate,
                 PrimeUtils::isPrime);
 
         // Return a record containing the prime candidate and the
         // result of checking if it's prime.
         return new PrimeResult(primeCandidate,
-                               primeResult);
+                               smallestFactor);
     }
 
     /**
