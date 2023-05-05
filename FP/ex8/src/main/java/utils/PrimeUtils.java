@@ -24,8 +24,7 @@ public class PrimeUtils {
      * Check if {@code primeCandidate} is prime or not.
      *
      * @param primeCandidate The number to check for primality
-     * @param primeCache A cache that avoids rechecking if a number is
-     *                 prime
+     * @param primeCache A cache that avoids rechecking if a number is prime
      * @return A {@link PrimeResult} record that contains the original
      *         {@code primeCandidate} and either 0 if it's prime or
      *         its smallest factor if it's not prime.
@@ -39,8 +38,7 @@ public class PrimeUtils {
 
         // Return a record containing the prime candidate and the
         // result of checking if it's prime.
-        return new PrimeResult(primeCandidate,
-                               smallestFactor);
+        return new PrimeResult(primeCandidate, smallestFactor);
     }
 
     /**

@@ -43,4 +43,8 @@ Here's an overview of what's currently included in these examples:
         to local variables even after the code execution has moved out
         of that block.
 
+. ex7 -
 
+. ex8 -
+
+. ex9 -
