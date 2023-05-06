@@ -1,8 +1,8 @@
 import java.util.function.Function;
 
 /**
- * This example shows how {@code Function} objects can be composed together
- * via the {@code andThen()} method.
+ * This example shows how Java {@code Function} interface objects can
+ * be composed together via the {@code andThen()} method.
  */
 public class ex10 {
     /**

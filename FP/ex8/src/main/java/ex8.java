@@ -12,9 +12,9 @@ import static utils.RandomUtils.generateRandomData;
 
 /**
  * This example benchmarks the use of Java object-oriented and
- * functional programming features in conjunction with Java
- * ConcurrentHashMap to compute/cache/retrieve large prime numbers.
- * This example also demonstrates the Java record data type.
+ * functional programming features in conjunction with Java {@link
+ * ConcurrentHashMap} to compute/cache/retrieve large prime numbers.
+ * This example also demonstrates the Java {@code record} data type.
  */
 public class ex8 {
     /**

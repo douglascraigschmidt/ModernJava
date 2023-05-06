@@ -43,8 +43,21 @@ Here's an overview of what's currently included in these examples:
         to local variables even after the code execution has moved out
         of that block.
 
-. ex7 -
+. ex7 - This example shows the use of predicate lambda expressions in
+        the context of the Java HashMap removeIf() method.
 
-. ex8 -
+. ex8 - This example benchmarks the use of Java object-oriented and
+        functional programming features in conjunction with Java
+        ConcurrentHashMap to compute/cache/retrieve large prime
+        numbers.  This example also demonstrates the Java record data
+        type.
 
-. ex9 -
+. ex9 - This example shows how a modern Java {@link Consumer}
+        interface can be used with the forEach() method to print out
+        the values in a list by binding the System.out.println()
+        method to the forEach() Consumer parameter.  It also shows how
+        to sort a List in ascending and descending order using a
+        Comparator and a Function functional interface.
+
+. ex10 - This example shows how Java Function interface objects can be
+         composed together via the andThen() method.
