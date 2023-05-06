@@ -52,12 +52,20 @@ Here's an overview of what's currently included in these examples:
         numbers.  This example also demonstrates the Java record data
         type.
 
-. ex9 - This example shows how a modern Java {@link Consumer}
-        interface can be used with the forEach() method to print out
-        the values in a list by binding the System.out.println()
-        method to the forEach() Consumer parameter.  It also shows how
-        to sort a List in ascending and descending order using a
-        Comparator and a Function functional interface.
+. ex9 - This example shows how Java Function interface objects can be
+        composed together via the andThen() method.
 
-. ex10 - This example shows how Java Function interface objects can be
-         composed together via the andThen() method.
+. ex10 - This example shows how a modern Java BiFunction lambda can be
+         used to replace all the values of all keys in a
+         ConcurrentHashMap.  It also contrasts the modern Java
+         BiFunction with a conventional Java 7 solution using a
+         for-each loop.
+
+. exx - This example shows how a modern Java Consumer interface can be
+        used with the forEach() method to print out the values in a
+        list by binding the System.out.println() method to the
+        forEach() Consumer parameter.  It also shows how to sort a
+        List in ascending and descending order using a Comparator and
+        a Function functional interface.
+
+

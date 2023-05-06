@@ -1,81 +1,45 @@
-import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static utils.ExceptionUtils.rethrowConsumer;
-
 /**
- * This example shows how a modern Java {@link Consumer} interface can
- * be used with the {@code forEach()} method to print out the values
- * in a list by binding the {@code System.out.println()} method to the
- * {@code forEach()} {@link Consumer} parameter.  It also shows how to
- * sort a {@link List} in ascending and descending order using a
- * {@link Comparator} and a {@link Function} functional interface.
+ * This example shows how Java {@code Function} interface objects can
+ * be composed together via the {@code andThen()} method.
  */
 public class ex9 {
     /**
-     * A simple wrapper around the {@link Thread} class.
+     * This simple class contains methods that can be used to build an
+     * HTML tag by adding '<' and '>' symbols.
      */
-    static class MyThread extends Thread {
+    static public class HtmlTagMaker {
         /**
-         * Constructor initializes the name of the {@link Thread}.
-         * @param name The name of the {@link Thread}
+         * Prepends the '<' symbol before {@code text}.
          */
-        MyThread(String name) {
-            super(name);
+        static String addLessThan(String text) {
+            return "<" + text;
         }
 
         /**
-         * Print the name of the {@link Thread} and the thread's id.
+         * Appends the '>' symbol after {@code text}.
          */
-        @Override
-        public void run() {
-            System.out.println("[Thread "
-                               + threadId()
-                               + "] "
-                               + getName());
+        static String addGreaterThan(String text) {
+            return text + ">";
         }
     }
 
-    /**
-     * A Java program needs a main entry point.
-     */
     static public void main(String[] argv) {
-        // Create a List of Thread objects.
-        var threads = new ArrayList<>(List
-            .of(new MyThread("Larry"),
-                    new MyThread("Curly"),
-                    new MyThread("Moe")));
+        // Create a simple pipeline that builds an HTML tag.
+        Function<String, String> lessThan = HtmlTagMaker::addLessThan;
+        Function<String, String> tagger = lessThan
+            .andThen(HtmlTagMaker::addGreaterThan);
 
-        // forEach() takes a Consumer, which is bound to the
-        // System.out println() method.
-        threads.forEach(System.out::println);
+        // Apply the tagger pipeline multiple times to create a simple
+        // HTML document.
+        String html = tagger.apply("HTML")
+            + tagger.apply("BODY")
+            + tagger.apply("/BODY")
+            + tagger.apply("/HTML");
 
-        // Sort the Thread objects by their names in ascending order.
-        threads.sort(Comparator.comparing(Thread::getName));
-
-        // forEach() takes a Consumer, which is bound to the
-        // System.out println() method.
-        threads.forEach(System.out::println);
-
-        // Sort the Thread objects by their names in descending order.
-        threads.sort(Comparator.comparing(Thread::getName).reversed());
-
-        // forEach() takes a Consumer, which is bound to the
-        // System.out println() method.
-        threads.forEach(System.out::println);
-
-        // Iterate through the List of Thread objects and pass a method
-        // reference that starts each Thread.
-        threads.forEach(Thread::start);
-
-        // This concise solution iterates through the threads and pass
-        // the Thread.join() method reference as a barrier
-        // synchronizer to wait for all threads to finish.  Note how
-        // rethrowConsumer() converts a checked exception to an
-        // unchecked exception.
-        threads
-            .forEach(rethrowConsumer(Thread::join));
+        // Print the results.
+        System.out.println(html);
     }
 }
 
