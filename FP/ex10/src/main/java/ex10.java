@@ -14,7 +14,7 @@ public class ex10 {
      * @return A {@link ConcurrentHashMap} that associates Stooges
      * with their IQs
      */
-    private static ConcurrentHashMap<String, Integer> makeStoogeMap() {
+    private static ConcurrentHashMap<String, Integer> makeMap() {
         return new ConcurrentHashMap<String, Integer>() { {
                 put("Larry", 100);
                 put("Curly", 90);
@@ -28,7 +28,7 @@ public class ex10 {
     static public void main(String[] argv) {
         // Create a map that associates Stooges with IQ points.
     	var stoogeMap =
-            makeStoogeMap();
+            makeMap();
 
     	System.out.println(stoogeMap);
 
@@ -39,7 +39,7 @@ public class ex10 {
         System.out.println(stoogeMap);
 
         // Recreate the Stooge map.
-        stoogeMap = makeStoogeMap();
+        stoogeMap = makeMap();
 
     	// Replace all values of all keys using a modern Java BiFunction
     	// lambda.

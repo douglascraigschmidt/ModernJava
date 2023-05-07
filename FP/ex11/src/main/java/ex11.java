@@ -2,8 +2,8 @@ import java.util.*;
 import java.util.function.Supplier;
 
 /**
- * This example shows how a Java {@link Supplier} interface can be
- * used in conjunction with the Java {@link Optional} class to print a
+ * This example shows how a Java {@link Supplier} interface is used
+ * in conjunction with the Java {@link Optional} class to print a
  * default value if a key is not found in a {@link Map}.
  */
 public class ex11 {
@@ -21,32 +21,32 @@ public class ex11 {
 
         beingMap
             // Display the contents of the Map.
-            .forEach(ex11::printDisposition);
+            .forEach(ex11::display);
 
         // The being to search for (who is not in the map).
         String being = "Demigod";
 
-        // Try to find the being in the Map.  Since they won't be
-        // there an empty Optional will be returned from ofNullable().
+        // Try to find the being in the Map. Since it won't be
+        // there, an empty Optional will be returned from ofNullable().
         Optional<String> disposition = 
             Optional.ofNullable(beingMap.get(being));
 
-        printDisposition(being,
-                         // Pass a Supplier lambda expression that
-                         // returns a default value if the being is
-                         // not found.
-                         disposition.orElseGet(() -> "unknown"));
+        display(being,
+                // Pass a Supplier lambda expression that
+                // returns a default value if the being is
+                // not found.
+                disposition.orElseGet(() -> "unknown"));
     }
 
     /**
-     * Print the {@code disposition} associated with the {@code
+     * Display the {@code disposition} associated with the {@code
      * being}.
      *
      * @param being The being
      * @param disposition The being's disposition
      */
-    private static void printDisposition(String being,
-                                         String disposition) {
+    private static void display(String being,
+                                String disposition) {
         System.out.println("disposition of "
                            + being + " = "
                            + disposition);
