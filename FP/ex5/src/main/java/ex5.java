@@ -6,9 +6,7 @@ import java.util.stream.Stream;
 
 /**
  * This example shows how to sort elements in a collection using a
- * Java anonymous inner class, lambda expression, and method
- * reference.  It also shows how to use the modern Java forEach()
- * method for Streams and collections.
+ * Java anonymous inner class and a lambda expression.
  */
 @SuppressWarnings("Convert2MethodRef")
 public class ex5 {
@@ -44,19 +42,12 @@ public class ex5 {
         // array.
         System.out.println("Original array:\n"
                            + List.of(sNameArray));
+        
         // Show how to sort using an anonymous inner class.
         sortInnerClass(sArrayCopy.get());
 
         // Show how to sort using a lambda expression.
         sortLambdaExpression(sArrayCopy.get());
-
-        // Show how to sort and print using a method reference and the
-        // modern Java Stream forEach() method.
-        sortMethodReference1(sArrayCopy.get());
-
-        // Show how to sort and print using a method reference and the
-        // modern Java Iterable forEach() method.
-        sortMethodReference2(sArrayCopy.get());
 
         System.out.println("\nLeaving test");
     }
@@ -96,47 +87,7 @@ public class ex5 {
     }
 
     /**
-     * Show how to sort and print using a method reference and the
-     * modern Java Stream {@code forEach()} method.
-     */
-    private static void sortMethodReference1(String[] nameArray) {
-        System.out.println("sortMethodReference1()");
-
-        // Sort using a method reference.
-        Arrays.sort(nameArray,
-                    String::compareToIgnoreCase);
-
-        // Print out the sorted contents.
-        Stream
-            // Convert nameArray into a Stream of String objects.
-            .of(nameArray)
-
-            // Call printString on each String in the Stream.
-            .forEach(ex5::printString);
-    }
-
-    /**
-     * Show how to sort and print using a method reference and the
-     * modern Java Iterable {@code forEach()} method.
-     */
-    private static void sortMethodReference2(String[] nameArray) {
-        System.out.println("\nsortMethodReference2()");
-
-        // Sort using a method reference.
-        Arrays.sort(nameArray,
-                    String::compareToIgnoreCase);
-
-        // Print out the sorted contents.
-        List
-            // Convert nameArray into a List of String Objects.
-            .of(nameArray)
-
-            // Call printString on each String in the Stream.
-            .forEach(ex5::printString);
-    }
-
-    /**
-     * Prints {@link String} s with a " " appended.
+     * Prints {@link String} s with " " appended.
      *
      * @param s The {@link String} to print
      */

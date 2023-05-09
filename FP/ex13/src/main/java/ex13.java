@@ -1,81 +1,106 @@
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import static utils.ExceptionUtils.rethrowConsumer;
+import java.util.function.Supplier;
 
 /**
- * This example shows how a modern Java {@link Consumer} interface can
- * be used with the {@code forEach()} method to print out the values
- * in a {@link List} by binding the {@code System.out.println()} method to the
- * {@code forEach()} {@link Consumer} parameter.  It also shows how to
- * sort a {@link List} in ascending and descending order using a
- * {@link Comparator} and a {@link Function} functional interface.
+ * This example of shows how the Java functional interfaces (including
+ * {@link Supplier} and a custom functional interface) can be used in
+ * conjunction with Java constructor references for constructors with
+ * zero parameters and three parameters.
  */
 public class ex13 {
     /**
-     * A simple wrapper around the {@link Thread} class.
+     * The main entry point into this program.
      */
-    static class MyThread extends Thread {
-        /**
-         * Constructor initializes the name of the {@link Thread}.
-         * @param name The name of the {@link Thread}
-         */
-        MyThread(String name) {
-            super(name);
-        }
+    public static void main(String[] argv) {
+        // Demonstrate how a Supplier can be used as a factory for
+        // a zero-parameter constructor reference.
+        zeroParamConstructorRef();
 
-        /**
-         * Print the name of the {@link Thread} and the thread's id.
-         */
-        @Override
-        public void run() {
-            System.out.println("[Thread "
-                               + threadId()
-                               + "] "
-                               + getName());
-        }
+        // Demonstrate how Supplier objects can be used as factories
+        // for multiple zero-parameter constructor references.
+        zeroParamConstructorRefEx();
+
+        // Demonstrate how a custom functional interface (i.e.,
+        // TriFactory, which is defined below) can be used as a
+        // factory for a three-parameter constructor reference.
+        threeParamConstructorRef();
     }
 
     /**
-     * A Java program needs a main entry point.
+     * Demonstrate how a {@link Supplier} can be used as a factory for
+     * a zero-parameter constructor reference.
      */
-    static public void main(String[] argv) {
-        // Create a List of Thread objects.
-        var threads = new ArrayList<>(List
-            .of(new MyThread("Larry"),
-                    new MyThread("Curly"),
-                    new MyThread("Moe")));
+    private static void zeroParamConstructorRef() {
+        System.out.println("zeroParamConstructorRef()");
 
-        // forEach() takes a Consumer, which is bound to the
-        // System.out println() method.
-        threads.forEach(System.out::println);
+        // Assign a constructor reference to a supplier that acts as a
+        // factory for a zero-param object of CrDemo.
+        Supplier<CrDemo> factory = CrDemo::new;
 
-        // Sort the Thread objects by their names in ascending order.
-        threads.sort(Comparator.comparing(Thread::getName));
+        // Use the factory to create a new instance of CrDemo and
+        // then call its run() method.
+        CrDemo crDemo = factory.get();
+        crDemo.run();
+    }
 
-        // forEach() takes a Consumer, which is bound to the
-        // System.out println() method.
-        threads.forEach(System.out::println);
+    /**
+     * Demonstrate how {@link Supplier} objects can be used as
+     * factories for multiple zero-parameter constructor references.
+     */
+    private static void zeroParamConstructorRefEx() {
+        System.out.println("zeroParamConstructorRefEx()");
 
-        // Sort the Thread objects by their names in descending order.
-        threads.sort(Comparator.comparing(Thread::getName).reversed());
+        // Assign a constructor reference to a supplier that acts as a
+        // factory for a zero-param object of CrDemo.
+        Supplier<CrDemo> crDemoFactory = CrDemo::new;
 
-        // forEach() takes a Consumer, which is bound to the
-        // System.out println() method.
-        threads.forEach(System.out::println);
+        // Assign a constructor reference to a supplier that acts as a
+        // factory for a zero-param object of CrDemoEx.
+        Supplier<CrDemoEx> crDemoExFactory = CrDemoEx::new;
 
-        // Iterate through the List of Thread objects and pass a method
-        // reference that starts each Thread.
-        threads.forEach(Thread::start);
+        // This helper method invokes the given supplier to create a
+        // new object and call its run() method.
+        runDemo(crDemoFactory);
+        runDemo(crDemoExFactory);
+    }
 
-        // This concise solution iterates through the threads and pass
-        // the Thread.join() method reference as a barrier
-        // synchronizer to wait for all threads to finish.  Note how
-        // rethrowConsumer() converts a checked exception to an
-        // unchecked exception.
-        threads
-            .forEach(rethrowConsumer(Thread::join));
+    /**
+     * Use the given {@code factory} to create a new object and call
+     * its {@code run()} method.
+     */
+    private static <T extends Runnable> void runDemo(Supplier<T> factory) {
+        factory.get().run();
+    }
+
+    /**
+     * Demonstrate how a custom functional interface (i.e., {@link
+     * TriFactory}, which is defined below) can be used as a factory
+     * for a three-parameter constructor reference.
+     */
+    public static void threeParamConstructorRef() {
+        System.out.println("threeParamConstructorRef()");
+
+        // Assign a constructor reference to a customized functional
+        // interface that acts as a factory to create a
+        // three-parameter constructor for CrDemo.
+        TriFactory<String, Integer, Long, CrDemo> factory = 
+            CrDemo::new;
+
+        // Use the factory to create a new instance of CrDemo and call
+        // its run() method.
+        factory.of("The answer is ", 4, 2L).run();
+    }
+
+    /**
+     * Represents a factory that accepts three generic arguments and produces
+     * a result.  This is a functional interface whose abstract method is
+     * {@link #of(P1, P2, P3)}.
+     */
+    @FunctionalInterface
+    interface TriFactory<P1, P2, P3, R> {
+        /**
+         * Create an object of type {@code R} using the three
+         * generic parameters and return the object.
+         */
+        R of(P1 p1, P2 p2, P3 p3);
     }
 }
-

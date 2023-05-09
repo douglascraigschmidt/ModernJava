@@ -34,38 +34,48 @@ Here's an overview of what's currently included in these examples:
         pass a Runnable lambda expression to it.
 
 . ex5 - This example shows how to sort elements in a collection using
-        a Java anonymous inner class, lambda expression, and method
-        reference.  It also shows how to use the modern Java forEach()
-        method for Streams and collections.
+        a Java anonymous inner class and a lambda expression.
 
 . ex6 - This example shows how to use modern Java lambda expressions
         to create a closure, which is a persistent scope that holds on
         to local variables even after the code execution has moved out
         of that block.
 
-. ex7 - This example shows the use of predicate lambda expressions in
+. ex7 - This example shows how to sort elements in a collection using
+        Java method references.  It also shows how to use the modern
+        Java forEach() method for Streams and collections.
+
+. ex8 - This example shows the use of predicate lambda expressions in
         the context of the Java HashMap removeIf() method.
 
-. ex8 - This example benchmarks the use of Java object-oriented and
+. ex9 - This example benchmarks the use of Java object-oriented and
         functional programming features in conjunction with Java
         ConcurrentHashMap to compute/cache/retrieve large prime
         numbers.  This example also demonstrates the Java record data
         type.
 
-. ex9 - This example shows how Java Function interface objects can be
-        composed together via the andThen() method.
+. ex10 - This example shows how Java Function interface objects can be
+         composed together via the andThen() method.
 
-. ex10 - This example shows how a modern Java BiFunction lambda can be
+. ex11 - This example shows how a modern Java BiFunction lambda can be
          used to replace all the values of all keys in a
          ConcurrentHashMap.  It also contrasts the modern Java
          BiFunction with a conventional Java 7 solution using a
          for-each loop.
 
-. exx - This example shows how a modern Java Consumer interface can be
-        used with the forEach() method to print out the values in a
-        list by binding the System.out.println() method to the
-        forEach() Consumer parameter.  It also shows how to sort a
-        List in ascending and descending order using a Comparator and
-        a Function functional interface.
+. ex12 - This example shows how a Java Supplier interface is used in
+         conjunction with the Java Optional class to print a default
+         value if a key is not found in a Map.
 
+. ex13 - This example of shows how the Java functional interfaces
+         (including Supplier and a custom functional interface) can be
+         used in conjunction with Java constructor references for
+         constructors with zero parameters and three parameters.
+
+. ex14 - This example shows how a modern Java Consumer interface can
+         be used with the forEach() method to print out the values in
+         a list by binding the System.out.println() method to the
+         forEach() Consumer parameter.  It also shows how to sort a
+         List in ascending and descending order using a Comparator and
+         a Function functional interface.
 

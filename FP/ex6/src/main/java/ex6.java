@@ -11,6 +11,7 @@ public class ex6 {
      * This class demonstrates how to implement closures using modern
      * Java.
      */
+    @SuppressWarnings("SameParameterValue")
     static class ClosureExample {
         /**
          * A private field that can be updated by the closure below.
@@ -41,6 +42,8 @@ public class ex6 {
 
             // Start the Thread.
             t.start();
+
+            System.out.println("Block until Thread is done");
 
             // Join when the Thread is finished.
             t.join();

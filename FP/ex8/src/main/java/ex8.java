@@ -1,167 +1,56 @@
-import utils.Options;
-import utils.PrimeUtils;
-import utils.RunTimer;
-
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
-
-import static utils.RandomUtils.generateRandomData;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
- * This example benchmarks the use of Java object-oriented and
- * functional programming features in conjunction with Java {@link
- * ConcurrentHashMap} to compute/cache/retrieve large prime numbers.
- * This example also demonstrates the Java {@code record} data type.
+ * This example shows the use of predicate lambda expressions in the
+ * context of the Java {@link HashMap} {@code removeIf()} method.
  */
 public class ex8 {
     /**
-     * Count the number of pending items.
+     * This factory method creates a {@link HashMap} containing the
+     * names of Stooges and their IQs.
      */
-    private final AtomicInteger mPendingItemCount =
-        new AtomicInteger(0);
+    static private Map<String, Integer> makeMap() {
+       return new HashMap<String, Integer>()  {
+          {
+            put("Larry", 100);
+            put("Curly", 90);
+            put("Moe", 110);
+          }
+        };
+    }
 
     /**
-     * A list of randomly-generated large integers.
-     */
-    private final List<Integer> mRandomIntegers;
-
-    /**
-     * Main entry point into the test program.
+     * Demonstrate the use of predicate lambda expressions.
      */
     static public void main(String[] argv) {
-        // Create and run the tests.
-        new ex8(argv).run();
-    }
+        // Create a map that associates Stooges with their IQs.
+        Map<String, Integer> stooges = makeMap();
 
-    /**
-     * Constructor initializes the fields.
-     */
-    ex8(String[] argv) {
-        // Parse the command-line arguments.
-        Options.instance().parseArgs(argv);
+        System.out.println(stooges);
 
-        // Generate random data for use by the various hashmaps.
-        mRandomIntegers =
-            generateRandomData(Options.instance().count(),
-                               Options.instance().maxValue());
-    }
+        // This lambda expression removes entries with IQ less than or
+        // equal to 100.
+        stooges.entrySet().removeIf(entry -> entry.getValue() <= 100);
+        System.out.println(stooges);
 
-    /**
-     * Run all the tests and print the results.
-     */
-    private void run() {
-        RunTimer
-            // Time how long this test takes to run.
-            .timeRun(() ->
-                     // Run the test using the given memoizer.
-                     runTest(new ConcurrentHashMap<>(),
-                             true,
-                             "Concurrent Test"),
-                     "Concurrent Test");
+        // Create another map that associates Stooges with their IQs.
+        stooges = makeMap();
+        System.out.println(stooges);
 
-        RunTimer
-            // Time how long this test takes to run.
-            .timeRun(() ->
-                     // Run the test using the given memoizer.
-                     runTest(new ConcurrentHashMap<>(),
-                             false,
-                             "Sequential Test"),
-                     "Sequential Test");
+        // Create two predicate objects.
+        Predicate<Map.Entry<String, Integer>> iq =
+            entry -> entry.getValue() <= 100;
 
-        // Print the results.
-        System.out.println(RunTimer.getTimingResults());
-    }
+        Predicate<Map.Entry<String, Integer>> curly = 
+            entry -> entry.getKey().equals("Curly");
 
-    /**
-     * Run the prime number test.
-     * 
-     * @param primeCache A memoizing cache that maps candidate primes
-     *                   to their smallest factor (if they aren't
-     *                   prime) or 0 if they are prime
-     * @param parallel Run in parallel if true, else run sequentially
-     * @param testName Name of the test
-     */
-    private void runTest
-        (Map<Integer, Integer> primeCache,
-         boolean parallel,
-         String testName) {
-        Options.print("Starting "
-                      + testName
-                      + " with count = "
-                      + Options.instance().count());
+        // This lambda expression removes entries with IQ less than or
+        // equal to 100 with the name "curly".
+        stooges.entrySet().removeIf(iq.and(curly));
 
-        // Reset the counter.
-        Options.instance().primeCheckCounter().set(0);
-
-        this
-            // Generate a stream of random large numbers.
-            .publishRandomIntegers(parallel)
-
-            // Print stats if we're debugging.
-            .peek(item -> Options
-                  .debug("processed item: "
-                         + item
-                         + ", publisher pending items: "
-                         + mPendingItemCount.incrementAndGet()))
-
-            // Check each random number to see if it's prime.
-            .map(number -> PrimeUtils
-                 .checkIfPrime(number, primeCache))
-            
-            // Handle the results.
-            .forEach(this::handleResult);
-
-        Options.print("Leaving "
-                      + testName
-                      + " with "
-                      + Options.instance().primeCheckCounter().get()
-                      + " prime checks ("
-                      + (Options.instance().count()
-                         - Options.instance().primeCheckCounter().get())
-                      + ") duplicates");
-    }
-
-    /**
-     * Publish a stream of random large {@link Integer} objects.
-     *
-     * @param parallel True if the stream should be parallel, else
-     *                 false
-     * @return Return a stream containing random large numbers
-     */
-    private Stream<Integer> publishRandomIntegers(boolean parallel) {
-        Stream<Integer> intStream = mRandomIntegers
-            // Convert the list into a stream.
-            .stream();
-
-        // Conditionally convert the stream to a parallel stream.
-        if (parallel)
-            intStream.parallel();
-
-        // Return the stream.
-        return intStream;
-    }
-
-    /**
-     * Handle the result by printing it if debugging is enabled.
-     *
-     * @param result The result of checking if a number is prime
-     */
-    private void handleResult(PrimeUtils.PrimeResult result) {
-        // Print the results.
-        if (result.smallestFactor() != 0) {
-            Options.debug(result.primeCandidate()
-                          + " is not prime with smallest factor "
-                          + result.smallestFactor());
-        } else {
-            Options.print(result.primeCandidate()
-                          + " is prime");
-        }
-
-        Options.debug("consumer pending items: "
-                      + mPendingItemCount.decrementAndGet());
+        // Print the updated Map.
+        System.out.println(stooges);
     }
 }
-    
+

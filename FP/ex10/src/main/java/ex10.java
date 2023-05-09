@@ -1,51 +1,45 @@
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
- * This example shows how a modern Java {@link BiFunction} lambda can
- * be used to replace all the values of all keys in a {@link
- * ConcurrentHashMap}. It also contrasts the modern Java {@link
- * BiFunction} with a conventional Java 7 solution using a for-each
- * loop.
+ * This example shows how Java {@code Function} interface objects can
+ * be composed together via the {@code andThen()} method.
  */
 public class ex10 {
     /**
-     * @return A {@link ConcurrentHashMap} that associates Stooges
-     * with their IQs
+     * This simple class contains methods that can be used to build an
+     * HTML tag by adding '<' and '>' symbols.
      */
-    private static ConcurrentHashMap<String, Integer> makeMap() {
-        return new ConcurrentHashMap<String, Integer>() { {
-                put("Larry", 100);
-                put("Curly", 90);
-                put("Moe", 110);
-        } };
+    static public class HtmlTagMaker {
+        /**
+         * Prepends the '<' symbol before {@code text}.
+         */
+        static String addLessThan(String text) {
+            return "<" + text;
+        }
+
+        /**
+         * Appends the '>' symbol after {@code text}.
+         */
+        static String addGreaterThan(String text) {
+            return text + ">";
+        }
     }
 
-    /**
-     * The main entry point into the Java program.
-     */
     static public void main(String[] argv) {
-        // Create a map that associates Stooges with IQ points.
-    	var stoogeMap =
-            makeMap();
+        // Create a simple pipeline that builds an HTML tag.
+        Function<String, String> lessThan = HtmlTagMaker::addLessThan;
+        Function<String, String> tagger = lessThan
+            .andThen(HtmlTagMaker::addGreaterThan);
 
-    	System.out.println(stoogeMap);
+        // Apply the tagger pipeline multiple times to create a simple
+        // HTML document.
+        String html = tagger.apply("HTML")
+            + tagger.apply("BODY")
+            + tagger.apply("/BODY")
+            + tagger.apply("/HTML");
 
-        // Replace all values of all keys using a Java 7 for-each loop.
-        for (Map.Entry<String, Integer> entry : stoogeMap.entrySet())
-            entry.setValue(entry.getValue() - 30);
-
-        System.out.println(stoogeMap);
-
-        // Recreate the Stooge map.
-        stoogeMap = makeMap();
-
-    	// Replace all values of all keys using a modern Java BiFunction
-    	// lambda.
-    	stoogeMap.replaceAll((k, v) -> v - 30);
-
-    	System.out.println(stoogeMap);
+        // Print the results.
+        System.out.println(html);
     }
 }
 

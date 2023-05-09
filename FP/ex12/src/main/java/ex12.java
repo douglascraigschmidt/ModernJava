@@ -1,106 +1,55 @@
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
- * This example of shows how the Java functional interfaces (including
- * {@link Supplier} and a custom functional interface) can be used in
- * conjunction with Java constructor references for constructors with
- * zero parameters and three parameters.
+ * This example shows how a Java {@link Supplier} interface is used
+ * in conjunction with the Java {@link Optional} class to print a
+ * default value if a key is not found in a {@link Map}.
  */
 public class ex12 {
     /**
-     * The main entry point into this program.
+     * The main entry point into the Java program.
      */
-    public static void main(String[] argv) {
-        // Demonstrate how a Supplier can be used as a factory for
-        // a zero-parameter constructor reference.
-        zeroParamConstructorRef();
+    static public void main(String[] argv) {
+        // Create a HashMap that associates beings with their
+        // personas.
+        Map<String, String> beingMap = new HashMap<String, String>() { { 
+                put("Demon", "Naughty");
+                put("Angel", "Nice");
+                put("Wizard", "Wise");
+            } };
 
-        // Demonstrate how Supplier objects can be used as factories
-        // for multiple zero-parameter constructor references.
-        zeroParamConstructorRefEx();
+        beingMap
+            // Display the contents of the Map.
+            .forEach(ex11::display);
 
-        // Demonstrate how a custom functional interface (i.e.,
-        // TriFactory, which is defined below) can be used as a
-        // factory for a three-parameter constructor reference.
-        threeParamConstructorRef();
+        // The being to search for (who is not in the map).
+        String being = "Demigod";
+
+        // Try to find the being in the Map. Since it won't be
+        // there, an empty Optional will be returned from ofNullable().
+        Optional<String> disposition = 
+            Optional.ofNullable(beingMap.get(being));
+
+        display(being,
+                // Pass a Supplier lambda expression that
+                // returns a default value if the being is
+                // not found.
+                disposition.orElseGet(() -> "unknown"));
     }
 
     /**
-     * Demonstrate how a {@link Supplier} can be used as a factory for
-     * a zero-parameter constructor reference.
+     * Display the {@code disposition} associated with the {@code
+     * being}.
+     *
+     * @param being The being
+     * @param disposition The being's disposition
      */
-    private static void zeroParamConstructorRef() {
-        System.out.println("zeroParamConstructorRef()");
-
-        // Assign a constructor reference to a supplier that acts as a
-        // factory for a zero-param object of CrDemo.
-        Supplier<CrDemo> factory = CrDemo::new;
-
-        // Use the factory to create a new instance of CrDemo and
-        // then call its run() method.
-        CrDemo crDemo = factory.get();
-        crDemo.run();
-    }
-
-    /**
-     * Demonstrate how {@link Supplier} objects can be used as
-     * factories for multiple zero-parameter constructor references.
-     */
-    private static void zeroParamConstructorRefEx() {
-        System.out.println("zeroParamConstructorRefEx()");
-
-        // Assign a constructor reference to a supplier that acts as a
-        // factory for a zero-param object of CrDemo.
-        Supplier<CrDemo> crDemoFactory = CrDemo::new;
-
-        // Assign a constructor reference to a supplier that acts as a
-        // factory for a zero-param object of CrDemoEx.
-        Supplier<CrDemoEx> crDemoExFactory = CrDemoEx::new;
-
-        // This helper method invokes the given supplier to create a
-        // new object and call its run() method.
-        runDemo(crDemoFactory);
-        runDemo(crDemoExFactory);
-    }
-
-    /**
-     * Use the given {@code factory} to create a new object and call
-     * its {@code run()} method.
-     */
-    private static <T extends Runnable> void runDemo(Supplier<T> factory) {
-        factory.get().run();
-    }
-
-    /**
-     * Demonstrate how a custom functional interface (i.e., {@link
-     * TriFactory}, which is defined below) can be used as a factory
-     * for a three-parameter constructor reference.
-     */
-    public static void threeParamConstructorRef() {
-        System.out.println("threeParamConstructorRef()");
-
-        // Assign a constructor reference to a customized functional
-        // interface that acts as a factory to create a
-        // three-parameter constructor for CrDemo.
-        TriFactory<String, Integer, Long, CrDemo> factory = 
-            CrDemo::new;
-
-        // Use the factory to create a new instance of CrDemo and call
-        // its run() method.
-        factory.of("The answer is ", 4, 2L).run();
-    }
-
-    /**
-     * Represents a factory that accepts three generic arguments and produces
-     * a result.  This is a functional interface whose abstract method is
-     * {@link #of(P1, P2, P3)}.
-     */
-    @FunctionalInterface
-    interface TriFactory<P1, P2, P3, R> {
-        /**
-         * Create an object of type {@code R} using the three
-         * generic parameters and return the object.
-         */
-        R of(P1 p1, P2 p2, P3 p3);
+    private static void display(String being,
+                                String disposition) {
+        System.out.println("disposition of "
+                           + being + " = "
+                           + disposition);
     }
 }
+

@@ -14,9 +14,9 @@ import static utils.ExceptionUtils.rethrowConsumer;
  * each containing a different work of William Shakespeare.  It
  * demonstrates the use of modern Java functional programming features
  * (such as lambda expressions, method references, and functional
- * interfaces) in conjunction with very modern Java virtual threads
- * (e.g., {@code Thread.start()} to run threads and {@code
- * Thread.join()} to wait for all running threads).
+ * interfaces) in conjunction with Java {@link Thread} methods (e.g.,
+ * {@code Thread.start()} to run threads and {@code Thread.join()} to
+ * wait for all running threads).
  * 
  * This test starts a {@link Thread} for each input {@link String} and
  * uses {@code Thread.join()} to wait for all threads to finish.  This
@@ -76,7 +76,7 @@ public class ThreadJoinTest
             makeWorkerThreads(this::processInput);
 
         // Iterate through the List of Thread objects and start a
-        // virtual Thread for each input String.
+        // Thread for each input String.
         workerThreads.forEach(Thread::start);
 
         // This concise solution iterates through the Thread objects
@@ -117,10 +117,8 @@ public class ThreadJoinTest
         // designated by the task parameter.
         mInputList.forEach
             (input -> workerThreads
-             // Add a new virtual Thread to the List.
-             .add(Thread
-                  .ofVirtual()
-                  .unstarted(() ->
+             // Add a new Thread to the List.
+             .add(new Thread(() ->
                              // Create a lambda runnable to run in a
                              // Thread and apply the task to process
                              // the input String.

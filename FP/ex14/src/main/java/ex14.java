@@ -7,12 +7,12 @@ import static utils.ExceptionUtils.rethrowConsumer;
 /**
  * This example shows how a modern Java {@link Consumer} interface can
  * be used with the {@code forEach()} method to print out the values
- * in a list by binding the {@code System.out.println()} method to the
+ * in a {@link List} by binding the {@code System.out.println()} method to the
  * {@code forEach()} {@link Consumer} parameter.  It also shows how to
  * sort a {@link List} in ascending and descending order using a
  * {@link Comparator} and a {@link Function} functional interface.
  */
-public class ex9 {
+public class ex14 {
     /**
      * A simple wrapper around the {@link Thread} class.
      */

@@ -1,55 +1,51 @@
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiFunction;
 
 /**
- * This example shows how a Java {@link Supplier} interface is used
- * in conjunction with the Java {@link Optional} class to print a
- * default value if a key is not found in a {@link Map}.
+ * This example shows how a modern Java {@link BiFunction} lambda can
+ * be used to replace all the values of all keys in a {@link
+ * ConcurrentHashMap}. It also contrasts the modern Java {@link
+ * BiFunction} with a conventional Java 7 solution using a for-each
+ * loop.
  */
 public class ex11 {
+    /**
+     * @return A {@link ConcurrentHashMap} that associates Stooges
+     * with their IQs
+     */
+    private static ConcurrentHashMap<String, Integer> makeMap() {
+        return new ConcurrentHashMap<String, Integer>() { {
+                put("Larry", 100);
+                put("Curly", 90);
+                put("Moe", 110);
+        } };
+    }
+
     /**
      * The main entry point into the Java program.
      */
     static public void main(String[] argv) {
-        // Create a HashMap that associates beings with their
-        // personas.
-        Map<String, String> beingMap = new HashMap<String, String>() { { 
-                put("Demon", "Naughty");
-                put("Angel", "Nice");
-                put("Wizard", "Wise");
-            } };
+        // Create a map that associates Stooges with IQ points.
+    	var stoogeMap =
+            makeMap();
 
-        beingMap
-            // Display the contents of the Map.
-            .forEach(ex11::display);
+    	System.out.println(stoogeMap);
 
-        // The being to search for (who is not in the map).
-        String being = "Demigod";
+        // Replace all values of all keys using a Java 7 for-each loop.
+        for (Map.Entry<String, Integer> entry : stoogeMap.entrySet())
+            entry.setValue(entry.getValue() - 30);
 
-        // Try to find the being in the Map. Since it won't be
-        // there, an empty Optional will be returned from ofNullable().
-        Optional<String> disposition = 
-            Optional.ofNullable(beingMap.get(being));
+        System.out.println(stoogeMap);
 
-        display(being,
-                // Pass a Supplier lambda expression that
-                // returns a default value if the being is
-                // not found.
-                disposition.orElseGet(() -> "unknown"));
-    }
+        // Recreate the Stooge map.
+        stoogeMap = makeMap();
 
-    /**
-     * Display the {@code disposition} associated with the {@code
-     * being}.
-     *
-     * @param being The being
-     * @param disposition The being's disposition
-     */
-    private static void display(String being,
-                                String disposition) {
-        System.out.println("disposition of "
-                           + being + " = "
-                           + disposition);
+    	// Replace all values of all keys using a modern Java BiFunction
+    	// lambda.
+    	stoogeMap.replaceAll((k, v) -> v - 30);
+
+    	System.out.println(stoogeMap);
     }
 }
 
