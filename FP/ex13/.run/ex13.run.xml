@@ -1,10 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ex8" type="Application" factoryName="Application">
-    <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/Downloads/jdk-19.jdk/Contents/Home" />
+  <configuration default="false" name="ex13" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="19" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="MAIN_CLASS_NAME" value="ex8" />
-    <module name="ex8.main" />
-    <option name="PROGRAM_PARAMETERS" value="-p false" />
+    <option name="MAIN_CLASS_NAME" value="ex13" />
+    <module name="ex13.main" />
     <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
       <option name="credential" />
       <option name="region" />

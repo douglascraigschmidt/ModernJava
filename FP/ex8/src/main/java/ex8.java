@@ -7,8 +7,7 @@ import java.util.function.Predicate;
  */
 public class ex8 {
     /**
-     * This factory method creates a {@link HashMap} containing the
-     * names of Stooges and their IQs.
+     * @return A {@link HashMap} containing the names of Stooges and their IQs.
      */
     static private Map<String, Integer> makeMap() {
        return new HashMap<String, Integer>()  {
@@ -21,7 +20,7 @@ public class ex8 {
     }
 
     /**
-     * Demonstrate the use of predicate lambda expressions.
+     * The main entry point into the test program.
      */
     static public void main(String[] argv) {
         // Create a map that associates Stooges with their IQs.

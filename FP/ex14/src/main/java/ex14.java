@@ -38,7 +38,7 @@ public class ex14 {
     }
 
     /**
-     * A Java program needs a main entry point.
+     * The main entry point into the test program.
      */
     static public void main(String[] argv) {
         // Create a List of Thread objects.

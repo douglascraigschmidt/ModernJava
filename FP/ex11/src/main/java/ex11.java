@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 public class ex11 {
     /**
      * @return A {@link ConcurrentHashMap} that associates Stooges
-     * with their IQs
+     *         with their IQs
      */
     private static ConcurrentHashMap<String, Integer> makeMap() {
         return new ConcurrentHashMap<String, Integer>() { {

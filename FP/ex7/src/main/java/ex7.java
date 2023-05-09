@@ -70,7 +70,7 @@ public class ex7 {
             .of(nameArray)
 
             // Call printString on each String in the Stream.
-            .forEach(ex14::printString);
+            .forEach(ex7::printString);
     }
 
     /**
@@ -90,7 +90,7 @@ public class ex7 {
             .of(nameArray)
 
             // Call printString on each String in the Stream.
-            .forEach(ex14::printString);
+            .forEach(ex7::printString);
     }
 
     /**

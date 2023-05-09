@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  */
 public class ex13 {
     /**
-     * The main entry point into this program.
+     * The main entry point into the test program.
      */
     public static void main(String[] argv) {
         // Demonstrate how a Supplier can be used as a factory for

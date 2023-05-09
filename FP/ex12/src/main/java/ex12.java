@@ -21,7 +21,7 @@ public class ex12 {
 
         beingMap
             // Display the contents of the Map.
-            .forEach(ex11::display);
+            .forEach(ex12::display);
 
         // The being to search for (who is not in the map).
         String being = "Demigod";
