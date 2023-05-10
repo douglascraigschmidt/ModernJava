@@ -82,7 +82,7 @@ public class ex7 {
 
         // Sort using a method reference.
         Arrays.sort(nameArray,
-                    String::compareToIgnoreCase);
+            String::compareToIgnoreCase);
 
         // Print out the sorted contents.
         List
