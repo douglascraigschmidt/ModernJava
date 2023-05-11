@@ -1,7 +1,9 @@
 package utils;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -28,10 +30,10 @@ public class TestDataFactory {
                                         String splitter) {
         try {
             // Convert the filename into a pathname.
-            var uri = ClassLoader.getSystemResource(filename).toURI();
+            var uri = getResourceFilePath(filename);
 
             // Open the file and read all the bytes.
-            var bytes = new String(Files.readAllBytes(Paths.get(uri)));
+            var bytes = new String(Files.readAllBytes(uri));
 
             // Split the File into a List of String objects using the
             // specified splitter.
@@ -56,8 +58,7 @@ public class TestDataFactory {
     public static List<String> getPhraseList(String filename) {
         try {
             // Convert the filename into a pathname.
-            var uri = Paths
-                .get(ClassLoader.getSystemResource(filename).toURI());
+            var uri = getResourceFilePath(filename);
 
             // Open the file and read all the lines.
             var lines = Files
@@ -72,5 +73,19 @@ public class TestDataFactory {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Gets a {@link Path} to a file in the {@code resources} directory.
+     *
+     * @param filename The name of the file
+     * @return A {@link Path} to the file
+     * @throws URISyntaxException If the filename is invalid
+     */
+    private static Path getResourceFilePath(String filename)
+        throws URISyntaxException {
+        return Paths
+            // Convert the filename into a pathname.
+            .get(ClassLoader.getSystemResource(filename).toURI());
     }
 }

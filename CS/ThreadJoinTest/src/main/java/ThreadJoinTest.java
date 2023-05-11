@@ -1,6 +1,6 @@
 import utils.TestDataFactory;
+import utils.ThreadUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -72,8 +72,8 @@ public class ThreadJoinTest
         // List of Thread objects that each run the processInput()
         // method reference.  These Thread objects will be joined
         // after they process the input String objects.
-        var workerThreads =
-            makeWorkerThreads(this::processInput);
+        var workerThreads = ThreadUtils
+            .makeThreads(mInputList, this::processInput);
 
         // Iterate through the List of Thread objects and start a
         // Thread for each input String.
@@ -98,34 +98,6 @@ public class ThreadJoinTest
         throw new RuntimeException(e);
         }});
         */
-    }
-
-    /**
-     * This factory method creates a {@link List} of Java {@link
-     * Thread} objects that will be joined when their processing is
-     * done.
-     *
-     * @param task {@link Function} to run in each {@link Thread}
-     * @return {@link List} of {@link Thread} objects that run the
-     *         {@code task}
-     */
-    List<Thread> makeWorkerThreads(Function<String, Void> task) {
-        // Create a new List.
-        List<Thread> workerThreads = new ArrayList<>();
-
-        // Create a Thread for each input string to perform processing
-        // designated by the task parameter.
-        mInputList.forEach
-            (input -> workerThreads
-             // Add a new Thread to the List.
-             .add(new Thread(() ->
-                             // Create a lambda runnable to run in a
-                             // Thread and apply the task to process
-                             // the input String.
-                             task.apply(input))));
-
-        // Return the List of workerThreads.
-        return workerThreads;
     }
 
     /**
