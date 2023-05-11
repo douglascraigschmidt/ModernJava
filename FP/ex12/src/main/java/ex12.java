@@ -13,7 +13,7 @@ public class ex12 {
     static public void main(String[] argv) {
         // Create a HashMap that associates beings with their
         // personas.
-        Map<String, String> beingMap = new HashMap<String, String>() { { 
+        Map<String, String> beingMap = new HashMap<>() { {
                 put("Demon", "Naughty");
                 put("Angel", "Nice");
                 put("Wizard", "Wise");
@@ -37,7 +37,10 @@ public class ex12 {
                 // not found.
                 disposition.orElseGet(() -> "unknown"));
 
+        // It's also possible to use the Map.getOrDefault() method to avoid
+        // using any Java Optional features.
         String value = beingMap.getOrDefault(being, "unknown");
+
         display(being, value);
     }
 
