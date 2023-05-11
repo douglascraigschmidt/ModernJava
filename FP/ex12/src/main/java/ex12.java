@@ -36,6 +36,9 @@ public class ex12 {
                 // returns a default value if the being is
                 // not found.
                 disposition.orElseGet(() -> "unknown"));
+
+        String value = beingMap.getOrDefault(being, "unknown");
+        display(being, value);
     }
 
     /**
