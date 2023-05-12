@@ -95,7 +95,7 @@ public class ex7 {
     }
 
     /**
-     * Prints {@link String} s with a " " appended.
+     * Prints {@link String} s with " " appended.
      *
      * @param s The {@link String} to print
      */

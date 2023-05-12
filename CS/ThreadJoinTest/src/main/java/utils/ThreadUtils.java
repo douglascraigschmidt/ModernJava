@@ -27,9 +27,8 @@ public class ThreadUtils {
             (input -> workerThreads
              // Add a new Thread to the List.
              .add(new Thread(() ->
-                             // Create a lambda runnable to run in a
-                             // Thread and apply the task to process
-                             // the input String.
+                             // Create a lambda to run the task in
+                             // a new Thread.
                              task.apply(input))));
 
         // Return the List of workerThreads.

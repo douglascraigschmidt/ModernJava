@@ -64,7 +64,7 @@ public class ThreadJoinTest
     }
 
     /**
-     * Start the threads to perform the parallel phrase searches.
+     * Start the threads to perform the concurrent Bard phrase searches.
      */
     @Override
     public void run() {
