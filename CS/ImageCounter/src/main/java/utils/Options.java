@@ -122,6 +122,15 @@ public class Options {
     }
 
     /**
+     * Conditionally prints the {@link String} depending on the current
+     * setting of the Options singleton.
+     */
+    public static void print(String string) {
+        if (Options.instance().getDiagnosticsEnabled())
+            System.out.println(string);
+    }
+
+    /**
      * Print out usage and default values.
      */
     public void printUsage(String arg) {

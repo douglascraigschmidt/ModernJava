@@ -5,6 +5,8 @@ import utils.Options;
 import java.util.HashSet;
 import java.util.Set;
 
+import static utils.Options.print;
+
 /**
  * This case study uses Java object-oriented features to count the
  * number of images reachable from a recursively-defined folder
@@ -54,14 +56,14 @@ class ImageCounter {
      * synchronously.
      *
      * @param pageUri The URL that we're counting at this point
-     * @param depth The current depth of the recursive processing
+     * @param depth   The current depth of the recursive processing
      * @return The number of images counted at this {@code depth}
      */
     private int countImages(String pageUri,
                             int depth) {
         // Return 0 if we've reached the depth limit of the crawling.
         if (depth > Options.instance().maxDepth()) {
-            print(TAG 
+            print(TAG
                   + "[Depth"
                   + depth
                   + "]: Exceeded max depth of "
@@ -74,7 +76,7 @@ class ImageCounter {
         // and add the new url to the hashset, so we don't try to
         // revisit it again unnecessarily.
         else if (!mUniqueUris.add(pageUri)) {
-            print(TAG 
+            print(TAG
                   + "[Depth"
                   + depth
                   + "]: Already processed "
@@ -87,9 +89,9 @@ class ImageCounter {
         // Synchronously (1) count the number of images on this page
         // and (2) crawl other hyperlinks accessible via this page and
         // count their images.
-        else { 
+        else {
             int count = countImagesImpl(pageUri,
-                                       depth);
+                                        depth);
             print(TAG
                   + "[Depth"
                   + depth
@@ -97,7 +99,7 @@ class ImageCounter {
                   + count
                   + " images for "
                   + pageUri
-                  + " in thread " 
+                  + " in thread "
                   + Thread.currentThread().getId());
             return count;
         }
@@ -107,11 +109,11 @@ class ImageCounter {
      * Helper method that performs image counting synchronously.
      *
      * @param pageUri The URL that we're counting at this point
-     * @param depth The current depth of the recursive processing
+     * @param depth   The current depth of the recursive processing
      * @return The number of images counted
      */
     private int countImagesImpl(String pageUri,
-                                 int depth) {
+                                int depth) {
         try {
             // Get the page at the root URI.
             Document page = getStartPage(pageUri);
@@ -127,9 +129,9 @@ class ImageCounter {
             // # of images on hyperlinks accessible via this page.
             return imagesInPage + imagesInLinks;
         } catch (Exception e) {
-            print("For '" 
-                  + pageUri 
-                  + "': " 
+            print("For '"
+                  + pageUri
+                  + "': "
                   + e.getMessage());
             // Return 0 if an exception happens.
             return 0;
@@ -156,19 +158,21 @@ class ImageCounter {
     }
 
     /**
-     * Recursively crawl through hyperlinks that are in {@code page}.
+     * Recursively crawl through hyperlinks that are in the {@code
+     * page}.
      *
-     * @param page The page containing HTML
+     * @param page  The {@link Document} containing HTML
      * @param depth The depth of the level of web page traversal
      * @return A count of how many images were in each hyperlink on
-     *         the page
+     *         the {@link Document}
      */
     private int crawlLinksInPage(Document page,
                                  int depth) {
         int imageCount = 0;
 
         // Return a count of the # of nested hyperlinks in the page.
-        for (var hyperLink : page // Find all the hyperlinks on this page.
+        for (var hyperLink : page
+                 // Find all the hyperlinks on this page.
                  .select("a[href]"))
             // Count of the number of images found at that hyperlink
             // by recursively visiting all hyperlinks on this page.
@@ -181,14 +185,5 @@ class ImageCounter {
         // Return a count of the number of images reachable
         // from this page.
         return imageCount;
-    }
-
-    /**
-     * Conditionally prints the {@link String} depending on the current
-     * setting of the Options singleton.
-     */
-    private void print(String string) {
-        if (Options.instance().getDiagnosticsEnabled())
-            System.out.println(string);
     }
 }
