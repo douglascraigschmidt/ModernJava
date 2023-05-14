@@ -1,6 +1,11 @@
 This folder contains source code for case studies that apply various
 modern Java features and frameworks.
 
+. ImageCounter -- This case study uses Java object-oriented features
+  to count the number of images reachable from a recursively-defined
+  folder structure.  The root folder can either reside locally
+  (filesystem -based) or remotely (web-based).
+
 . BardWords -- This case study shows how Java's BreakIterator, regular
   expression methods, and other object-oriented features can be used
   to search the complete works of Shakespeare for given words and

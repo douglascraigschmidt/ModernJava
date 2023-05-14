@@ -2,14 +2,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import utils.Options;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentHashMap.KeySetView;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * This class counts the number of images in a recursively-defined
- * folder structure using basic Java object-oriented features.  The
- * root folder can either reside locally (filesystem -based) or
- * remotely (web-based).
+ * This case study uses Java object-oriented features to count the
+ * number of images reachable from a recursively-defined folder
+ * structure.  The root folder can either reside locally (filesystem
+ * -based) or remotely (web-based).
  */
 class ImageCounter {
     /**
@@ -20,8 +20,18 @@ class ImageCounter {
     /**
      * A cache of unique URIs that have already been processed.
      */
-    private final KeySetView<Object, Boolean> mUniqueUris =
-        ConcurrentHashMap.newKeySet();
+    private final Set<Object> mUniqueUris = new HashSet<>();
+
+    /**
+     * This static main() entry point runs the example.
+     */
+    public static void main(String[] args) {
+        // Initializes the Options singleton.
+        Options.instance().parseArgs(args);
+
+        // Create an object that count the images.
+        new ImageCounter();
+    }
 
     /**
      * Constructor counts all the images reachable from the root URI.
@@ -167,6 +177,7 @@ class ImageCounter {
                                       .getJSuper()
                                       .getHyperLink(hyperLink),
                                       depth + 1);
+
         // Return a count of the number of images reachable
         // from this page.
         return imageCount;
