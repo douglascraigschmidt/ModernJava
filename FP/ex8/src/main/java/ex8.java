@@ -10,13 +10,11 @@ public class ex8 {
      * @return A {@link HashMap} containing the names of Stooges and their IQs.
      */
     static private Map<String, Integer> makeMap() {
-       return new HashMap<String, Integer>()  {
-          {
+       return new HashMap<>()  { {
             put("Larry", 100);
             put("Curly", 90);
             put("Moe", 110);
-          }
-        };
+       } };
     }
 
     /**
@@ -26,15 +24,20 @@ public class ex8 {
         // Create a map that associates Stooges with their IQs.
         Map<String, Integer> stooges = makeMap();
 
+        // Print the original Map.
         System.out.println(stooges);
 
         // This lambda expression removes entries with IQ less than or
         // equal to 100.
         stooges.entrySet().removeIf(entry -> entry.getValue() <= 100);
+
+        // Print the updated Map.
         System.out.println(stooges);
 
         // Create another map that associates Stooges with their IQs.
         stooges = makeMap();
+
+        // Print the original Map.
         System.out.println(stooges);
 
         // Create two predicate objects.
