@@ -1,62 +1,66 @@
+import utils.RSAKeyUtils;
+
+import static utils.PrimeUtils.generateProbablePrime;
+
 /**
  * This example shows how to use modern Java lambda expressions to
- * create a closure, which is a persistent scope that holds on to
- * local variables even after the code execution has moved out of that
- * block, as described at <a
+ * create {@link Thread} closures that are used to check primality of
+ * large numbers as part of computing RSA public and private keys.
+ *
+ * A closure is a persistent scope that holds on to local variables
+ * even after the code execution has moved out of that block, as
+ * described at <a
  * href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">this
  * link</a>.
  */
 public class ex6 {
     /**
-     * This class demonstrates how to implement closures using modern
-     * Java.
-     */
-    @SuppressWarnings("SameParameterValue")
-    static class ClosureExample {
-        /**
-         * A private field that can be updated by the closure below.
-         */
-        private int mRes;
-
-        /**
-         * This factory method creates a closure that will run in a
-         * background {@link Thread}.
-         *
-         * @return The background {@link Thread} reference
-         */
-        Thread makeThreadClosure(String string, int n) {
-            // Create and return a new Thread whose runnable lambda
-            // expression defines a closure that reads the method
-            // parameters and updates the mRes field.
-            return new Thread(() ->
-                              System.out.println(string + (mRes += n)));
-        }
-
-        /**
-         * The constructor creates/starts/runs a {@link Thread}
-         * closure.
-         */
-        ClosureExample() throws InterruptedException {
-            // Create a Thread closure.
-            Thread t = makeThreadClosure("result = ", 10);
-
-            // Start the Thread.
-            t.start();
-
-            System.out.println("Block until Thread is done");
-
-            // Join when the Thread is finished.
-            t.join();
-        }
-    }
-
-    /**
      * This method provides the main entry point into this test
      * program.
      */
-    static public void main(String[] argv) throws InterruptedException {
-        // First demonstrates the closure example.
-        new ClosureExample();
+    static public void main(String[] argv) throws Exception {
+        System.out.println("Entering ClosurePrimeTest");
+
+        // Create two closures that concurrently check the primality of
+        // large numbers in separate threads.
+        var checkPrimality1 =
+            new CheckPrimality(generateProbablePrime(1024));
+        var checkPrimality2 =
+            new CheckPrimality(generateProbablePrime(1024));
+
+        // Get the results of both primality checks, blocking until
+        // the results are available. The results are returned in the
+        // order the threads in the closures were started.
+        var primeResult1 = checkPrimality1.getResult();
+        var primeResult2 = checkPrimality2.getResult();
+
+        // Print the results.
+        System.out.println("The value "
+            + primeResult1.primeCandidate()
+            + "\nis "
+            + (primeResult1.isPrime() ? "" : "not ")
+            + "prime and the value\n"
+            + primeResult2.primeCandidate()
+            + "\nis "
+            + (primeResult2.isPrime() ? "" : "not ")
+            + "prime.");
+
+        if (primeResult1.isPrime() 
+            && primeResult2.isPrime()) {
+            // Create a new RSA key pair.
+            var keyPair = RSAKeyUtils
+                .generateKeyPair(primeResult1.primeCandidate(),
+                                 primeResult2.primeCandidate());
+
+            // Print the public and private keys.
+            System.out.println("Public key = "
+                               + keyPair.publicKey().toString()
+                               + "\nPrivate key = "
+                               + keyPair.privateKey().toString());
+        } else
+            System.out.println("Numbers are not both prime");
+
+        System.out.println("Leaving ClosurePrimeTest");
     }
 }
 

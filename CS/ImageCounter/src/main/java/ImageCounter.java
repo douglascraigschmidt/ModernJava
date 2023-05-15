@@ -31,7 +31,7 @@ class ImageCounter {
         // Initializes the Options singleton.
         Options.instance().parseArgs(args);
 
-        // Create an object that count the images.
+        // Create an object that counts the images.
         new ImageCounter();
     }
 
@@ -46,7 +46,8 @@ class ImageCounter {
         // is given an initial depth count of 1.
         int totalImages = countImages(rootUri, 1);
 
-        print(TAG + ": " + totalImages
+        print(TAG
+              + ": " + totalImages
               + " total image(s) are reachable from "
               + rootUri);
     }
