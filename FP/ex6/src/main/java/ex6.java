@@ -23,10 +23,12 @@ public class ex6 {
 
         // Create two closures that concurrently check the primality of
         // large numbers in separate threads.
-        var checkPrimality1 =
-            new CheckPrimality(generateProbablePrime(1024));
+        var  checkPrimality1 =
+            new CheckPrimality(generateProbablePrime(1024))
+                .start();
         var checkPrimality2 =
-            new CheckPrimality(generateProbablePrime(1024));
+            new CheckPrimality(generateProbablePrime(1024))
+                .start();
 
         // Get the results of both primality checks, blocking until
         // the results are available. The results are returned in the

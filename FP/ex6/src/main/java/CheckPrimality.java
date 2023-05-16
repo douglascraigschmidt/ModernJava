@@ -50,19 +50,32 @@ public class CheckPrimality {
      *
      * @param n The number to check for primality
      */
-    CheckPrimality(BigInteger n) {
+    public CheckPrimality(BigInteger n) {
         // Create a Thread closure.
         mThread = makeThreadClosure(n);
-
-        // Start the Thread.
-        mThread.start();
     }
 
     /**
-     * @return The smallest factor of the number
+     * Start the {@link Thread} that checks the primality of
+     * {@code n}.
+     *
+     * @return This object
+     */
+    public CheckPrimality start() {
+        // Start the Thread.
+        mThread.start();
+
+        // Return this object.
+        return this;
+    }
+
+    /**
+     * @return A {@link PrimeResult} containing the {@link BigInteger}
+     *         and a {@link Boolean} indicating whether this {@link
+     *         BigInteger} is prime or not
      * @throws InterruptedException If the Thread is interrupted
      */
-    PrimeResult getResult() throws InterruptedException {
+    public PrimeResult getResult() throws InterruptedException {
         // Wait until the primality checking is done.
         mThread.join();
 

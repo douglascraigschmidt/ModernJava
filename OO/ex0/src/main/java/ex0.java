@@ -26,8 +26,7 @@ public class ex0 {
                                       "ConcurrentHashSet")) {
             // Factory method makes the concrete Simple*Set
             // subclass & exposes no lexical dependencies.
-            var set =
-                    makeSet(setType);
+            var set = makeSet(setType);
 
             // Test the Simple*Set add() method.
             testAdd(set);

@@ -26,8 +26,8 @@ public class PrimeUtils {
      *
      * @param primeCandidate The number to check for primality
      * @return A {@link PrimeResult} record that contains the original
-     *         {@code primeCandidate} and either 0 if it's prime or
-     *         its smallest factor if it's not prime.
+     *         {@code primeCandidate} and either true if it's prime or
+     *         false if it's not prime.
      */
     public static PrimeResult checkIfPrime
         (BigInteger primeCandidate) {

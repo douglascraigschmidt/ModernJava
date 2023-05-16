@@ -11,7 +11,7 @@ import static java.util.AbstractMap.SimpleImmutableEntry;
 import static utils.TestDataFactory.makePhraseList;
 
 /**
- * This case study shows how Java's {@link BreakIterator}, ,regular
+ * This case study shows how Java's {@link BreakIterator}, regular
  * expression methods, and other object-oriented features can be used
  * to search the complete works of Shakespeare for given words and
  * phrases.
@@ -51,22 +51,20 @@ public class BardWords {
                              entry.getKey(),
 
                              // Get the regular expression to compile.
-                             entry.getValue()
-                             );
+                             entry.getValue());
     }
 
     /**
-     * Show how the Java regular expression methods can be used to
-     * search the complete works of Shakespeare ({@code bardWorks} for
-     * {@code word}.
+     * Use Java regular expression methods to search the complete works
+     * of Shakespeare ({@code bardWorks} for {@code word}.
      */
     private static void processBardWorks(List<String> bardWorks,
                                          String word,
                                          String regex) {
-        // Create a List of Shakespeare works containing 'word'.
+        // Create a List of Shakespeare works that will contain 'word'.
         List<String> bardWorksMatchingWord = new ArrayList<>();
 
-        // Loop through each work in the original list.
+        // Loop through each work in the 'bardWorks' List.
         for (String work : bardWorks)
             // If 'word' appears in 'work', add 'work' to the List.
             if (findMatch(work, word))
@@ -86,7 +84,7 @@ public class BardWords {
     /**
      * Return true if the {@code work} contains the {@code searchWord}.
      *
-     * @param work       The text to search
+     * @param work The text to search
      * @param searchWord The word to search for
      * @return true if the {@code work} contains the {@code searchWord}
      */
@@ -139,6 +137,11 @@ public class BardWords {
     private static void showRegexMatches
         (List<String> bardWorksMatchingWord,
          Pattern pattern) {
+        // Print the regex pattern.
+        System.out.println("Pattern = \""
+                           + pattern.toString()
+                           + "\"");
+
         // Process each work in the List.
         for (String work : bardWorksMatchingWord) {
             // Iterate through each match in the work.

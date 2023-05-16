@@ -17,12 +17,12 @@ class ImageCounter {
     /**
      * Debugging tag.
      */
-    private final String TAG = this.getClass().getName();
+    final String TAG = this.getClass().getName();
 
     /**
      * A cache of unique URIs that have already been processed.
      */
-    private final Set<Object> mUniqueUris = new HashSet<>();
+    final Set<Object> mUniqueUris = new HashSet<>();
 
     /**
      * This static main() entry point runs the example.
@@ -60,7 +60,7 @@ class ImageCounter {
      * @param depth   The current depth of the recursive processing
      * @return The number of images counted at this {@code depth}
      */
-    private int countImages(String pageUri,
+    int countImages(String pageUri,
                             int depth) {
         // Return 0 if we've reached the depth limit of the crawling.
         if (depth > Options.instance().maxDepth()) {
@@ -73,8 +73,8 @@ class ImageCounter {
             return 0;
         }
 
-        // Atomically check to see if we've already visited this URL
-        // and add the new url to the hashset, so we don't try to
+        // Check to see if we've already visited this URL and
+        // add the new url to the hashset, so we don't try to
         // revisit it again unnecessarily.
         else if (!mUniqueUris.add(pageUri)) {
             print(TAG
@@ -107,22 +107,23 @@ class ImageCounter {
     }
 
     /**
-     * Helper method that performs image counting synchronously.
+     * This helper method performs the main image counting algorithm
+     * sequentially.
      *
      * @param pageUri The URL that we're counting at this point
      * @param depth   The current depth of the recursive processing
      * @return The number of images counted
      */
-    private int countImagesImpl(String pageUri,
+    int countImagesImpl(String pageUri,
                                 int depth) {
         try {
-            // Get the page at the root URI.
-            Document page = getStartPage(pageUri);
+            // Get the HTML page at the root URI.
+            var page = getStartPage(pageUri);
 
-            // Synchronously count the # of images on this page.
+            // Sequentially count the # of images on this page.
             int imagesInPage = getImagesInPage(page).size();
 
-            // Synchronously count the # of images in link on this
+            // Sequentially count the # of images in links on this
             // page and returns this count.
             int imagesInLinks = crawlLinksInPage(page, depth);
 
@@ -142,8 +143,8 @@ class ImageCounter {
     /**
      * @return The page at the root {@code pageUri}
      */
-    private Document getStartPage(String pageUri) {
-        // Synchronously get the contents of the page.
+    Document getStartPage(String pageUri) {
+        // Get the contents of the page.
         return Options
             .instance()
             .getJSuper()
@@ -153,7 +154,7 @@ class ImageCounter {
     /**
      * @return A collection of IMG SRC URLs in this page
      */
-    private Elements getImagesInPage(Document page) {
+    Elements getImagesInPage(Document page) {
         // Return a collection of IMG SRC URLs in this page.
         return page.select("img");
     }
@@ -167,11 +168,11 @@ class ImageCounter {
      * @return A count of how many images were in each hyperlink on
      *         the {@link Document}
      */
-    private int crawlLinksInPage(Document page,
+    int crawlLinksInPage(Document page,
                                  int depth) {
         int imageCount = 0;
 
-        // Return a count of the # of nested hyperlinks in the page.
+        // Iterate through the page and count the # of nested hyperlinks.
         for (var hyperLink : page
                  // Find all the hyperlinks on this page.
                  .select("a[href]"))
