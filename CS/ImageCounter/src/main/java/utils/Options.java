@@ -5,7 +5,9 @@ package utils;
  * command-line option processing.
  */
 public class Options {
-    /** The singleton @a Options instance. */
+    /**
+     * The singleton @a Options instance.
+     */
     private static Options mUniqueInstance = null;
 
     /**
@@ -21,7 +23,7 @@ public class Options {
     /**
      * Starting point for local file crawling.
      */
-    private String mPathUri = "index.html";
+    private final String mPathUri = "index.html";
 
     /**
      * Controls whether debugging output will be generated (defaults
@@ -92,24 +94,15 @@ public class Options {
         if (argv != null) {
             for (int argc = 0; argc < argv.length; argc++)
                 switch (argv[argc]) {
-                case "-d":
-                    mDiagnosticsEnabled = argv[++argc].equals("true");
-                    break;
-                case "-l":
-                    mLocal = true;
-                    break;
-                case "-m":
-                    mMaxDepth = Integer.parseInt(argv[++argc]);
-                    break;
-                case "-u":
-                    mRootUrl = argv[++argc];
-                    break;
-                case "-w":
-                    mLocal = false;
-                    break;
-                default:
-                    printUsage(argv[argc]);
-                    return;
+                    case "-d" -> mDiagnosticsEnabled = argv[++argc].equals("true");
+                    case "-l" -> mLocal = true;
+                    case "-m" -> mMaxDepth = Integer.parseInt(argv[++argc]);
+                    case "-u" -> mRootUrl = argv[++argc];
+                    case "-w" -> mLocal = false;
+                    default -> {
+                        printUsage(argv[argc]);
+                        return;
+                    }
                 }
 
             // Set whether JSuper performs web-based or local
@@ -117,7 +110,6 @@ public class Options {
             mJSuper = mLocal
                 ? new JSuper(true)
                 : new JSuper(false);
-
         }
     }
 
@@ -134,12 +126,14 @@ public class Options {
      * Print out usage and default values.
      */
     public void printUsage(String arg) {
-        System.out.println(arg + " is an invalid argument\n" + "Usage: ");
-        System.out.println("-d [true|false]");
-        System.out.println("-l");
-        System.out.println("-m [maxDepth]");
-        System.out.println("-u [startingRootUrl]");
-        System.out.println("-w");
+        System.out.println("""
+            %s is an invalid argument
+            Usage:
+            -d [true|false]
+            -l
+            -m [maxDepth]
+            -u [startingRootUrl]
+            -w""");
     }
 
     /**

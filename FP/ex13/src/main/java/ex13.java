@@ -4,7 +4,7 @@ import java.util.function.Supplier;
  * This example of shows how the Java functional interfaces (including
  * {@link Supplier} and a custom functional interface) can be used in
  * conjunction with Java constructor references for constructors with
- * zero parameters and three parameters.
+ * zero parameters and multiple parameters.
  */
 public class ex13 {
     /**
@@ -32,7 +32,7 @@ public class ex13 {
     private static void zeroParamConstructorRef() {
         System.out.println("zeroParamConstructorRef()");
 
-        // Assign a constructor reference to a supplier that acts as a
+        // Assign a constructor reference to a Supplier that acts as a
         // factory for a zero-param object of CrDemo.
         Supplier<CrDemo> factory = CrDemo::new;
 
@@ -67,7 +67,8 @@ public class ex13 {
      * Use the given {@code factory} to create a new object and call
      * its {@code run()} method.
      */
-    private static <T extends Runnable> void runDemo(Supplier<T> factory) {
+    static <T extends Runnable> void runDemo
+        (Supplier<T> factory) {
         factory.get().run();
     }
 

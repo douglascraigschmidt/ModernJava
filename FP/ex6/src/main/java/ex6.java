@@ -26,6 +26,7 @@ public class ex6 {
         var  checkPrimality1 =
             new CheckPrimality(generateProbablePrime(1024))
                 .start();
+
         var checkPrimality2 =
             new CheckPrimality(generateProbablePrime(1024))
                 .start();

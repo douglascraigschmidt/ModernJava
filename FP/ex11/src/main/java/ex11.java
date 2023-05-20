@@ -14,7 +14,7 @@ public class ex11 {
      * @return A {@link ConcurrentHashMap} that associates Stooges
      *         with their IQs
      */
-    private static ConcurrentHashMap<String, Integer> makeMap() {
+    private static Map<String, Integer> makeMap() {
         return new ConcurrentHashMap<String, Integer>() { {
                 put("Larry", 100);
                 put("Curly", 90);
@@ -33,7 +33,7 @@ public class ex11 {
     	System.out.println(stoogeMap);
 
         // Replace all values of all keys using a Java 7 for-each loop.
-        for (Map.Entry<String, Integer> entry : stoogeMap.entrySet())
+        for (var entry : stoogeMap.entrySet())
             entry.setValue(entry.getValue() - 30);
 
         System.out.println(stoogeMap);

@@ -3,8 +3,6 @@ package utils;
 import java.util.List;
 import java.util.Random;
 
-import static java.util.stream.Collectors.toList;
-
 public class RandomUtils {
     /**
      * Generate random data for use by the various hashmaps.
@@ -25,7 +23,7 @@ public class RandomUtils {
                 .boxed()
 
                 // Trigger intermediate operations and collect into list.
-                .collect(toList());
+                .toList();
     }
 
 }

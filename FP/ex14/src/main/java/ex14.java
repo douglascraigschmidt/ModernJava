@@ -7,10 +7,10 @@ import static utils.ExceptionUtils.rethrowConsumer;
 /**
  * This example shows how a modern Java {@link Consumer} interface can
  * be used with the {@code forEach()} method to print out the values
- * in a {@link List} by binding the {@code System.out.println()} method to the
- * {@code forEach()} {@link Consumer} parameter.  It also shows how to
- * sort a {@link List} in ascending and descending order using a
- * {@link Comparator} and a {@link Function} functional interface.
+ * in a {@link List} by binding the {@code System.out.println()} method to
+ * the {@link Consumer} parameter on the {@code forEach()} method. It also
+ * shows how to sort a {@link List} in ascending and descending order
+ * using a {@link Comparator} and a {@link Function} functional interface.
  */
 public class ex14 {
     /**
@@ -42,10 +42,12 @@ public class ex14 {
      */
     static public void main(String[] argv) {
         // Create a List of Thread objects.
-        var threads = new ArrayList<>(List
-            .of(new MyThread("Larry"),
+        var threads = Arrays
+            .asList(new MyThread("Larry"),
                     new MyThread("Curly"),
-                    new MyThread("Moe")));
+                    new MyThread("Moe"));
+
+        System.out.println("Original List:");
 
         // forEach() takes a Consumer, which is bound to the
         // System.out println() method.
@@ -54,6 +56,8 @@ public class ex14 {
         // Sort the Thread objects by their names in ascending order.
         threads.sort(Comparator.comparing(Thread::getName));
 
+        System.out.println("List sorted in ascending order:");
+
         // forEach() takes a Consumer, which is bound to the
         // System.out println() method.
         threads.forEach(System.out::println);
@@ -61,10 +65,13 @@ public class ex14 {
         // Sort the Thread objects by their names in descending order.
         threads.sort(Comparator.comparing(Thread::getName).reversed());
 
+        System.out.println("List sorted in descending order:");
+
         // forEach() takes a Consumer, which is bound to the
         // System.out println() method.
         threads.forEach(System.out::println);
 
+        System.out.println("Starting the Thread objects:");
         // Iterate through the List of Thread objects and pass a method
         // reference that starts each Thread.
         threads.forEach(Thread::start);
