@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.util.AbstractMap.SimpleImmutableEntry;
+import static java.util.AbstractMap.SimpleEntry;
 import static utils.TestDataFactory.makePhraseList;
 
 /**
@@ -28,7 +28,7 @@ public class BardWords {
      * The {@link List} of phrases to search for in the works of
      * Shakespeare.
      */
-    private static final List<SimpleImmutableEntry<String, String>> sPhrases =
+    private static final List<SimpleEntry<String, String>> sPhrases =
         makePhraseList();
 
     /**
@@ -37,7 +37,7 @@ public class BardWords {
     static public void main(String[] argv) {
         // Create a List of String objects containing the complete
         // works of Shakespeare, one work per String.
-        List<String> bardWorks = TestDataFactory
+        var bardWorks = TestDataFactory
             .getInput(sSHAKESPEARE_DATA_FILE,
                       // Split input into "works".
                       "@");
@@ -45,7 +45,8 @@ public class BardWords {
         // Process the List of phrases to see where they occur in the
         // complete works of Shakespeare.
         for (var entry : sPhrases)
-            // Search the works of Shakespeare for a certain word/phrase.
+            // Search the works of Shakespeare for a certain
+            // word/phrase.
             processBardWorks(bardWorks,
                              // Get the word to search for.
                              entry.getKey(),
@@ -55,8 +56,8 @@ public class BardWords {
     }
 
     /**
-     * Use Java regular expression methods to search the complete works
-     * of Shakespeare ({@code bardWorks} for {@code word}.
+     * Use Java regular expression methods to search the complete
+     * works of Shakespeare ({@code bardWorks} for {@code word}.
      */
     private static void processBardWorks(List<String> bardWorks,
                                          String word,
@@ -82,11 +83,13 @@ public class BardWords {
     }
 
     /**
-     * Return true if the {@code work} contains the {@code searchWord}.
+     * Return true if the {@code work} contains the {@code
+     * searchWord}.
      *
      * @param work The text to search
      * @param searchWord The word to search for
-     * @return true if the {@code work} contains the {@code searchWord}
+     * @return true if the {@code work} contains the {@code
+     *              searchWord}
      */
     private static boolean findMatch(String work,
                                      String searchWord) {
@@ -130,9 +133,9 @@ public class BardWords {
      * Show the portions of the works of Shakespeare that match the
      * {@link Pattern}.
      *
-     * @param bardWorksMatchingWord The Shakespeare works matching
-     *                              a search word
-     * @param pattern               The compiled regular expression to search for
+     * @param bardWorksMatchingWord The Shakespeare works matching a
+     *                              search word
+     * @param pattern The compiled regular expression to search for
      */
     private static void showRegexMatches
         (List<String> bardWorksMatchingWord,
@@ -146,8 +149,8 @@ public class BardWords {
         for (String work : bardWorksMatchingWord) {
             // Iterate through each match in the work.
             for (Matcher matcher = pattern
-                     // Create a Matcher that associates the regex pattern with
-                     // the work.
+                     // Create a Matcher that associates the regex
+                     // pattern with the work.
                      .matcher(work);
                  // Process each match in the work.
                  matcher.find();

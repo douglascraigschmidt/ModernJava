@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static java.util.AbstractMap.SimpleImmutableEntry;
+import static java.util.AbstractMap.SimpleEntry;
 
 /**
  * This utility class contains methods for obtaining test data.
@@ -53,19 +53,20 @@ public class TestDataFactory {
     }
 
     /**
-     * @return A {@link List} of {@link SimpleImmutableEntry} objects
-     *         containing the word to search for and the regular expression to
-     *         compile
+     * @return A {@link List} of {@link SimpleEntry} objects
+     *         containing the word to search for and the regular
+     *         expression to compile
      */
-    public static ArrayList<SimpleImmutableEntry<String, String>>
+    public static ArrayList<SimpleEntry<String, String>>
     makePhraseList() {
         return new ArrayList<>() {{
-            add(new SimpleImmutableEntry<>(
+            add(new SimpleEntry<>(
                 // The word to search for.
                 "lord",
 
-                // The regular expression to compile, which matches the phrase
-                // "'lord' followed by either 'true' or 'false'".
+                // The regular expression to compile, which matches
+                // the phrase "'lord' followed by either 'true' or
+                // 'false'".
                 "\\blord\\b.*(\\btrue\\b|\\bfalse\\b)"));
         }};
     }
