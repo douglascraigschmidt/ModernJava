@@ -1,10 +1,14 @@
-import utils.TestDataFactory;
+import utils.BardDataFactory;
 import utils.ThreadUtils;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static utils.ExceptionUtils.rethrowConsumer;
 
@@ -42,13 +46,13 @@ public class ThreadJoinTest
      * The {@link List} of {@link String} objects, each of which
      * contains a work of Shakespeare.
      */
-    private static final List<String> mInputList = TestDataFactory
+    private static final List<String> mInputList = BardDataFactory
         .getInput(sSHAKESPEARE_DATA_FILE, "@");
 
     /**
      * The {@link List} of phrases to search for in the works.
      */
-    private static final List<String> mPhrasesToFind = TestDataFactory
+    private static final List<String> mPhrasesToFind = BardDataFactory
         .getPhraseList(sPHRASE_LIST_FILE);
 
     /**
@@ -92,17 +96,17 @@ public class ThreadJoinTest
         // Thread objects and join with them all, which is a form of
         // barrier synchronization.
         workerThreads.forEach(thread -> {
-        try {
-        thread.join();
-        } catch (Exception e) {
-        throw new RuntimeException(e);
-        }});
+          try {
+            thread.join();
+          } catch (Exception e) {
+            throw new RuntimeException(e);
+          }});
         */
     }
 
     /**
      * This method runs in a background {@link Thread} and searches
-     * the {@code input} for all occurrences of the phrases to find.
+     * the {@code input} for all occurrences of the Bard phrases to find.
      *
      * @param input Input {@link String} to search for matching
      *              phrases
@@ -111,27 +115,28 @@ public class ThreadJoinTest
      */
     private Void processInput(String input) {
         // Get the title of the work.
-        String title = getTitle(input);
+        var title = getTitle(input);
 
         // Iterate through each phrase we're searching for.
-        for (String phrase : mPhrasesToFind) {
+        for (var phrase : mPhrasesToFind)
             // Check to see how many times (if any) the phrase appears
             // in the input data.
             for (int offset = input.indexOf(phrase);
+                 // An offset > -1 indicates a match.
                  offset != -1;
+                 // Update the offset.
                  offset = input.indexOf(phrase,
                                         offset + phrase.length())) {
 
                 // Display the results whenever a match is found.
-                ThreadJoinTest.display("the phrase \""
+                ThreadJoinTest.display("\""
                             + phrase
-                            + "\" was found at character offset "
+                            + "\" appears at offset "
                             + offset
                             + " in \""
                             + title
                             + "\"");
             }
-        }
 
         return null;
     }
