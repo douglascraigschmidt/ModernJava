@@ -12,12 +12,12 @@ import static utils.TextUtils.getTitle;
 import static utils.TextUtils.match;
 
 /**
- * This program implements an "embarrassingly parallel" app that
- * searches for phrases in a {@link List} of {@link String} objects,
- * each containing a different work of William Shakespeare.  It
- * demonstrates the use of modern Java function programming features
- * (such as lambda expressions, method references, and functional
- * interfaces) in conjunction with the Java parallel streams framework.
+ * This program searches for phrases in a {@link List} of {@link
+ * String} objects, each containing a different work of William
+ * Shakespeare.  It demonstrates the use of modern Java function
+ * programming features (such as lambda expressions, method
+ * references, and functional interfaces) in conjunction with the Java
+ * sequential and parallel streams framework.
  * 
  * This implementation requires no Java synchronization mechanisms
  * other than what's provided by the Java parallel streams framework.

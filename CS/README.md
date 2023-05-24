@@ -11,9 +11,15 @@ Java features and frameworks.
   to search the complete works of Shakespeare for given words and
   phrases.
 
-. **ThreadJoinTest** -- This case study uses modern Java features (such as
-  lambdas and method references) and very modern Java features (such
-  as virtual threads) to search for famous phrases in the complete
+. **ThreadJoinTest** -- This case study uses modern Java features
+  (such as lambdas and method references) and very modern Java
+  features (such as virtual threads) to search for famous phrases in
+  the complete works of William Shakespeare.
+
+. **BardStreamTest -- This case study demonstrates the use of modern
+  Java function programming features (such as lambda expressions,
+  method references, and functional interfaces) in conjunction with
+  the Java streams framework to searches for phrases in the complete
   works of William Shakespeare.
 
 . **ImageStreamGang** -- This case study provides a program that
