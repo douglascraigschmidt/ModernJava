@@ -8,6 +8,8 @@ import static java.util.Spliterators.AbstractSpliterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -92,6 +94,29 @@ public class TextUtils {
 
         // Create a Stream from the PhraseSpliterator.
         return StreamSupport.stream(spliterator, false);
+    }
+
+    /**
+     * @return The title portion of the {@code input} {@link String}
+     */
+    public static String getTitle(String input) {
+        // Create a Matcher.
+        Matcher m = Pattern
+            // Compile a regex that matches only the first line in the
+            // input since each title appears on the first line of the
+            // work.
+            .compile("(?m)^.*$")
+
+            // Create a matcher for this pattern.
+            .matcher(input);
+
+        // Extract the title.
+        return m.find()
+            // Return the title String if there's a match.
+            ? m.group()
+
+            // Return an empty String if there's no match.
+            : "";
     }
 }
 

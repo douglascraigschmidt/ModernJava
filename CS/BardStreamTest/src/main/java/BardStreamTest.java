@@ -1,11 +1,14 @@
 import utils.BardDataFactory;
+import utils.Options;
 
-import java.util.AbstractMap;
+import static java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.StreamSupport;
 
+import static utils.TextUtils.getTitle;
 import static utils.TextUtils.match;
 
 /**
@@ -15,7 +18,7 @@ import static utils.TextUtils.match;
  * demonstrates the use of modern Java function programming features
  * (such as lambda expressions, method references, and functional
  * interfaces) in conjunction with the Java parallel streams framework.
- * <p>
+ * 
  * This implementation requires no Java synchronization mechanisms
  * other than what's provided by the Java parallel streams framework.
  */
@@ -53,6 +56,8 @@ public class BardStreamTest
     static public void main(String[] args) {
         System.out.println("Starting BardStreamTest");
 
+        Options.instance().parseArgs(args);
+
         // Create/run an object to search for phrases in parallel.
         new BardStreamTest().run();
 
@@ -65,11 +70,12 @@ public class BardStreamTest
      */
     @Override
     public void run() {
-        mInputList
-            // Convert the List to a parallel Stream.
-            .parallelStream()
+        StreamSupport
+            // Convert the List to a sequential or parallel Stream.
+            .stream(mInputList.spliterator(),
+                    Options.instance().getParallel())
 
-            // Process each work of Shakespeare in parallel.
+            // Process each work of Shakespeare.
             .forEach(this::processInput);
     }
 
@@ -85,54 +91,35 @@ public class BardStreamTest
         // Get the title of the work.
         var title = getTitle(input);
 
-        mPhrasesToFind
-            // Convert the List to a Stream.
-            .stream()
+        StreamSupport
+            // Convert the List to a sequential or parallel Stream.
+            .stream(mPhrasesToFind.spliterator(),
+                    Options.instance().getParallel())
 
             // Create a Stream of matching phrases.
             .flatMap(phrase ->
                 match(phrase, input))
 
             // Print all matches.
-            .forEach(entry -> displayMatch(title, entry));
+            .forEach(entry ->
+                     displayMatch(title, entry));
     }
 
     /**
      * Display the {@code entry}
      * @param title The title of the work
-     * @param entry The {@link AbstractMap.SimpleEntry} of phrase and offset
+     * @param entry The {@link SimpleEntry} of phrase and offset
      */
-    private static void displayMatch(String title, AbstractMap.SimpleEntry<String, Integer> entry) {
+    private static void displayMatch
+        (String title,
+         SimpleEntry<String, Integer> entry) {
         BardStreamTest.display("\""
-            + entry.getKey()
-            + "\" appears at offset "
-            + entry.getValue()
-            + " in \""
-            + title
-            + "\"");
-    }
-
-    /**
-     * @return The title portion of the {@code input} {@link String}
-     */
-    String getTitle(String input) {
-        // Create a Matcher.
-        Matcher m = Pattern
-            // Compile a regex that matches only the first line in the
-            // input since each title appears on the first line of the
-            // work.
-            .compile("(?m)^.*$")
-
-            // Create a matcher for this pattern.
-            .matcher(input);
-
-        // Extract the title.
-        return m.find()
-            // Return the title String if there's a match.
-            ? m.group()
-
-            // Return an empty String if there's no match.
-            : "";
+                               + entry.getKey()
+                               + "\" appears at offset "
+                               + entry.getValue()
+                               + " in \""
+                               + title
+                               + "\"");
     }
 
     /**
