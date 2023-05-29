@@ -1,16 +1,17 @@
 package utils;
 
-import java.math.BigInteger;
 import java.util.concurrent.*;
 import java.util.function.Function;
 
 /**
- * This class demonstrates how to apply a variant of the Active Object
- * pattern using modern Java features that call a generic {@link
- * Function} with a generic param to perform a computation
- * asynchronously.  It implements the {@link Future} interface to
- * enable clients to check if the computation is complete, to wait for
- * its completion, and to retrieve the result of the computation.
+ * This class implements a variant of the <A
+ * HREF="https://en.wikipedia.org/wiki/Active_object">Active Object
+ * </A> pattern using modern Java features. An instance of this class
+ * calls a generic {@link Function} with a generic param to perform a
+ * computation asynchronously. This class implements the {@link
+ * Future} interface so clients can check if the computation is
+ * complete, wait for its completion, and retrieve the result of the
+ * asynchronous computation.
  */
 @SuppressWarnings("SameParameterValue")
 public class ActiveObject<T, R>
@@ -22,8 +23,8 @@ public class ActiveObject<T, R>
     R mResult;
 
     /**
-     * This field stores the {@link FutureTask} that wraps the
-     * virtual {@link Thread} used to perform the {@link Function}.
+     * This field stores the {@link FutureTask} that wraps the virtual
+     * {@link Thread} used to perform the {@link Function}.
      */
     RunnableFuture<R> mRunnableFuture;
 
@@ -127,6 +128,14 @@ public class ActiveObject<T, R>
     public R get()
         throws InterruptedException, ExecutionException {
         return mRunnableFuture.get();
+    }
+
+    /**
+     * @return Returns the computed result, without waiting
+     */
+    @Override
+    public R resultNow() {
+        return mRunnableFuture.resultNow();
     }
 
     /**

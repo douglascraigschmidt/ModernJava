@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="exx" type="Application" factoryName="Application">
+  <configuration default="false" name="ex16" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="19" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="MAIN_CLASS_NAME" value="exx" />
-    <module name="exx.main" />
+    <option name="MAIN_CLASS_NAME" value="ex16" />
+    <module name="ex16.main" />
     <option name="VM_PARAMETERS" value="--enable-preview" />
     <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
       <option name="credential" />

@@ -39,7 +39,7 @@ Here's an overview of what's currently included in these examples:
 . ex6 - This example shows how to use modern Java lambda expressions
         to create a closure, which is a persistent scope that holds on
         to local variables even after the code execution has moved out
-        of that block.
+        of a block.
 
 . ex7 - This example shows how to sort elements in a collection using
         Java method references.  It also shows how to use the modern
@@ -79,3 +79,14 @@ Here's an overview of what's currently included in these examples:
          List in ascending and descending order using a Comparator and
          a Function functional interface.
 
+. ex15 - This example demonstrates how to apply Java functional and
+         object-oriented programming features to create, start, and
+         use virtual and platform Thread objects in Java 19+, which
+         contains an implementation of lightweight user-mode threads
+         (virtual threads).
+
+. ex16 - This example shows how to use Java lambda expressions and the
+         Future interface to create an ActiveObject that's implemented
+         via a Java virtual Thread closure.  Instances of ActiveObject
+         are used to check the primality of large numbers as part of
+         computing RSA public and private keys.

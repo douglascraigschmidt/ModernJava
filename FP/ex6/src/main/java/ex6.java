@@ -5,13 +5,9 @@ import static utils.PrimeUtils.generateProbablePrime;
 /**
  * This example shows how to use modern Java lambda expressions to
  * create {@link Thread} closures that are used to check primality of
- * large numbers as part of computing RSA public and private keys.
- *
- * A closure is a persistent scope that holds on to local variables
- * even after the code execution has moved out of that block, as
- * described at <a
- * href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">this
- * link</a>.
+ * large numbers as part of computing RSA public and private keys.  A
+ * closure is a persistent scope that holds on to local variables even
+ * after the code execution has moved out of a block.
  */
 public class ex6 {
     /**
@@ -21,8 +17,8 @@ public class ex6 {
     static public void main(String[] argv) throws Exception {
         System.out.println("Entering ClosurePrimeTest");
 
-        // Create two closures that concurrently check the primality of
-        // large numbers in separate threads.
+        // Create two closures that concurrently check the primality
+        // of large numbers in separate threads.
         var  checkPrimality1 =
             new CheckPrimality(generateProbablePrime(1024))
                 .start();
