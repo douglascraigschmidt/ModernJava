@@ -83,8 +83,8 @@ public class BardWords {
     }
 
     /**
-     * Return true if the {@code work} contains the {@code
-     * searchWord}.
+     * Determine whether the {@code work} of Shakespeare contains the
+     * {@code searchWord} in its text.
      *
      * @param work The text to search
      * @param searchWord The word to search for
@@ -100,13 +100,12 @@ public class BardWords {
         // Set the text to search.
         iterator.setText(work);
 
-        // Get the first and second boundary from the iterator.
-        int previous = iterator.first();
+        // Iterate through all the text in 'work'.
+        for (// Get the first and second word boundary from the iterator.
+             int previous = iterator.first(),
+                 current = iterator.next();
 
-        // Iterate through all the text.
-        for (int current = iterator.next();
-
-             // Keep iterating until the BreakIterator is done.
+             // Iterate until BreakIterator is done.
              current != BreakIterator.DONE;
 
              // Update the current boundary.
@@ -115,8 +114,7 @@ public class BardWords {
             // boundaries.
             String word = work.substring(previous, current);
 
-            // Check if the item matches the predicate and
-            // that 'word' contains 'searchWord'.
+            // Check if 'word' contains 'searchWord'.
             if (Character.isLetterOrDigit(word.charAt(0))
                 && word.toLowerCase().equals(searchWord))
                 return true;
@@ -130,7 +128,7 @@ public class BardWords {
     }
 
     /**
-     * Show the portions of the works of Shakespeare that match the
+     * Display the portions of the works of Shakespeare that match the
      * {@link Pattern}.
      *
      * @param bardWorksMatchingWord The Shakespeare works matching a
@@ -152,7 +150,7 @@ public class BardWords {
                      // Create a Matcher that associates the regex
                      // pattern with the work.
                      .matcher(work);
-                 // Process each match in the work.
+                 // Process the loop body long as there's a match.
                  matcher.find();
                  ) {
                 // Print the title of the work.

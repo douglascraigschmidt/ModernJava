@@ -49,7 +49,7 @@ public class ActiveObject<T, R>
          T n) {
         // Create a FutureTask that defines a closure that applies the
         // 'function' param to the param 'n'.
-        mRunnableFuture = new FutureTask<R>(() -> {
+        var runnableFuture = new FutureTask<R>(() -> {
                 // The field is updated within the closure.
                 return mResult = function
                     // Apply the function to the param 'n'.
@@ -57,13 +57,11 @@ public class ActiveObject<T, R>
         });
 
         // Create and return a new virtual Thread whose Runnable
-        // lambda expression defines a closure that applies the
-        // 'function' on the param 'n' and stores the result in the
-        // mResult field.
-        mThread = Thread.startVirtualThread(mRunnableFuture);
+        // param is the FutureTask to execute in the background.
+        mThread = Thread.startVirtualThread(runnableFuture);
 
         // Return the RunnableFuture.
-        return mRunnableFuture;
+        return runnableFuture;
     }
 
     /**
@@ -75,7 +73,9 @@ public class ActiveObject<T, R>
      */
     public ActiveObject(Function<T, R> function,
                         T n) {
-        // Create and start a virtual Thread closure.
+        // Create and start a virtual Thread closure that applies the
+        // 'function' param to the param 'n' and stores the result in
+        // the field 'mRunnableFuture'.
         mRunnableFuture = makeThreadClosure(function, n);
     }
 
