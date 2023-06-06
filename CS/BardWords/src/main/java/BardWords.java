@@ -1,5 +1,7 @@
+import utils.RegexUtils;
 import utils.TestDataFactory;
 
+import java.io.File;
 import java.text.BreakIterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -19,7 +21,8 @@ import static utils.TestDataFactory.makePhraseList;
 @SuppressWarnings("SameParameterValue")
 public class BardWords {
     /**
-     * The file containing the complete works of William Shakespeare.
+     * The name of the {@link File} containing the complete works of
+     * William Shakespeare.
      */
     private static final String sSHAKESPEARE_DATA_FILE =
         "completeWorksOfShakespeare.txt";
@@ -39,7 +42,7 @@ public class BardWords {
         // works of Shakespeare, one work per String.
         var bardWorks = TestDataFactory
             .getInput(sSHAKESPEARE_DATA_FILE,
-                      // Split input into "works".
+                      // Split File input into "works".
                       "@");
 
         // Process the List of phrases to see where they occur in the
@@ -57,7 +60,7 @@ public class BardWords {
 
     /**
      * Use Java regular expression methods to search the complete
-     * works of Shakespeare ({@code bardWorks} for {@code word}.
+     * works of Shakespeare ({@code bardWorks}) for {@code word}.
      */
     private static void processBardWorks(List<String> bardWorks,
                                          String word,
@@ -66,13 +69,13 @@ public class BardWords {
         List<String> bardWorksMatchingWord = new ArrayList<>();
 
         // Loop through each work in the 'bardWorks' List.
-        for (String work : bardWorks)
+        for (var work : bardWorks)
             // If 'word' appears in 'work', add 'work' to the List.
             if (findMatch(work, word))
                 bardWorksMatchingWord.add(work);
 
         // Compile the regular expression to perform case-insensitive
-        // matches.
+        // matches (e.g., "Lord", "lord", and "LORD" all match).
         Pattern pattern = Pattern
             .compile(regex,
                      Pattern.CASE_INSENSITIVE);
@@ -83,8 +86,8 @@ public class BardWords {
     }
 
     /**
-     * Determine whether the {@code work} of Shakespeare contains the
-     * {@code searchWord} in its text.
+     * Use {@link BreakIterator} to determine whether the {@code work}
+     * of Shakespeare contains the {@code searchWord} in its text.
      *
      * @param work The text to search
      * @param searchWord The word to search for
@@ -93,9 +96,10 @@ public class BardWords {
      */
     private static boolean findMatch(String work,
                                      String searchWord) {
-        // Create a BreakIterator that will break words.
+        // Create a BreakIterator that breaks the works of
+        // Shakespeare into words using the UK locale.
         BreakIterator iterator = BreakIterator
-            .getWordInstance(Locale.US);
+            .getWordInstance(Locale.UK);
 
         // Set the text to search.
         iterator.setText(work);
@@ -104,17 +108,16 @@ public class BardWords {
         for (// Get the first and second word boundary from the iterator.
              int previous = iterator.first(),
                  current = iterator.next();
-
              // Iterate until BreakIterator is done.
              current != BreakIterator.DONE;
-
-             // Update the current boundary.
+             // Update the current boundary with the next word.
              current = iterator.next()) {
-            // Get the text between the previous and current
+            // Get the "word" between the previous and current
             // boundaries.
             String word = work.substring(previous, current);
 
-            // Check if 'word' contains 'searchWord'.
+            // Check if 'word' is indeed a "word" and that it
+            // contains 'searchWord'.
             if (Character.isLetterOrDigit(word.charAt(0))
                 && word.toLowerCase().equals(searchWord))
                 return true;
@@ -138,7 +141,7 @@ public class BardWords {
     private static void showRegexMatches
         (List<String> bardWorksMatchingWord,
          Pattern pattern) {
-        // Print the regex pattern.
+        // Print the regex pattern we're searching for.
         System.out.println("Pattern = \""
                            + pattern.toString()
                            + "\"");
@@ -154,9 +157,10 @@ public class BardWords {
                  matcher.find();
                  ) {
                 // Print the title of the work.
-                System.out.println(getFirstLine(work));
+                System.out.println(RegexUtils.getFirstLine(work));
 
-                // Print the match.
+                // Print the input subsequence matched by the
+                // previous match.
                 System.out.println("\""
                                    + matcher.group()
                                    + "\" ["
@@ -165,27 +169,5 @@ public class BardWords {
                                    + "]");
             }
         }
-    }
-
-    /**
-     * @return The first line of the {@code input}.
-     */
-    public static String getFirstLine(String work) {
-        // Create a Matcher.
-        Matcher m = Pattern
-            // Compile a regex that matches only the first line in the
-            // input.
-            .compile("(?m)^.*$")
-
-            // Create a matcher for this pattern.
-            .matcher(work);
-
-        // Find/return the first line in the String.
-        return m.find()
-            // Return the title string if there's a match.
-            ? m.group()
-
-            // Return an empty String if there's no match.
-            : "";
     }
 }

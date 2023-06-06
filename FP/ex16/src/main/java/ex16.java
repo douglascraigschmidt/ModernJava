@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
 import static java.util.AbstractMap.SimpleEntry;
@@ -38,8 +39,8 @@ public class ex16 {
      * that are used to check the primality of large numbers.
      */
     static class ActiveObjectList
-        extends ArrayList<ActiveObject<BigInteger,
-                SimpleEntry<BigInteger, Boolean>>> {
+           extends ArrayList<ActiveObject<BigInteger,
+                                          SimpleEntry<BigInteger, Boolean>>> {
     }
 
     /**
@@ -81,6 +82,8 @@ public class ex16 {
 
         // Create a new RSA key pair based on the primality check.
         var keyPair = RSAKeyUtils
+            // Pass the two prime numbers to generate RSA public
+            // and private keys.
             .generateKeyPair(results.get(0).getKey(),
                              results.get(1).getKey());
 
@@ -115,7 +118,7 @@ public class ex16 {
             // Loop for 'sNUM_ITERATIONS'.
             // Could also do results
             // .add(future.get(waitTime * sNUM_ITERATIONS, SECONDS))
-            // instead of the inner for loop.
+            // instead of using the inner for loop.
             for (int i = 0; i < sNUM_ITERATIONS; i++) {
                 if (future.isDone()) {
                     // If the 'future' is done, get the result and

@@ -23,10 +23,11 @@ public class TestDataFactory {
     /**
      * Split the input data in the given {@code filename} using the
      * {@code splitter} regular expression and return a {@link List}
-     * of {@link String} objects.
+     * of non-empty {@link String} objects.
      *
      * @param filename The name of the file containing the input data
      * @param splitter The regular expression to use to split the input
+     * @return A {@link List} of non-empty {@link String} objects
      */
     public static List<String> getInput(String filename,
                                         String splitter) {
@@ -34,19 +35,23 @@ public class TestDataFactory {
             // Convert the filename into a pathname.
             URI uri = ClassLoader.getSystemResource(filename).toURI();
 
-            // Open the file and get all the bytes.
+            // Open the File and read all the bytes.
             CharSequence bytes =
                 new String(Files.readAllBytes(Paths.get(uri)));
 
             // Compile splitter into a regular expression (regex).
             Pattern pattern = Pattern.compile(splitter);
 
-            // Use the regex to split the file into an array of String
-            // objects.
-            String[] splitStrings = pattern.split(bytes);
+            // Use the regex to split the File into an array of String
+            // objects and then convert this array to a List.
+            var splitStrings = Arrays
+                .asList(pattern.split(bytes));
+
+            // Remove any empty String objects from the List.
+            splitStrings.removeIf(String::isEmpty);
 
             // Return the List of non-empty String objects.
-            return Arrays.asList(splitStrings);
+            return splitStrings;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -57,8 +62,10 @@ public class TestDataFactory {
      *         containing the word to search for and the regular
      *         expression to compile
      */
-    public static ArrayList<SimpleEntry<String, String>>
+    public static List<SimpleEntry<String, String>>
     makePhraseList() {
+        // Return an ArrayList containing the phrases to search for
+        // (we could also read this info from a File).
         return new ArrayList<>() {{
             add(new SimpleEntry<>(
                 // The word to search for.
@@ -66,7 +73,7 @@ public class TestDataFactory {
 
                 // The regular expression to compile, which matches
                 // the phrase "'lord' followed by either 'true' or
-                // 'false'".
+                // 'false'.
                 "\\blord\\b.*(\\btrue\\b|\\bfalse\\b)"));
         }};
     }
