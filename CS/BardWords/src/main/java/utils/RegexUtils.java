@@ -28,7 +28,8 @@ public final class RegexUtils {
 
         // Find/return the first line in the String.
         return matcher.find()
-            // Return the first String if there's a match.
+            // Return String containing the first line
+            // if there's a match.
             ? matcher.group()
 
             // Return an empty String if there's no match.

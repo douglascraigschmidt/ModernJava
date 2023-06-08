@@ -21,7 +21,7 @@ import static utils.TestDataFactory.makePhraseList;
 public class BardWords {
     /**
      * The name of the {@link File} containing the complete works of
-     * William Shakespeare.
+     * William Shakespeare, which appears in the "resources" folder.
      */
     private static final String sSHAKESPEARE_DATA_FILE =
         "completeWorksOfShakespeare.txt";
