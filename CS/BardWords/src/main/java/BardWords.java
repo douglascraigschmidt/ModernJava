@@ -3,10 +3,9 @@ import utils.TestDataFactory;
 
 import java.io.File;
 import java.text.BreakIterator;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.AbstractMap.SimpleEntry;
@@ -76,7 +75,7 @@ public class BardWords {
 
         // Compile the regular expression to perform case-insensitive
         // matches (e.g., "Lord", "lord", and "LORD" all match).
-        Pattern pattern = Pattern
+        var pattern = Pattern
             .compile(regex,
                      Pattern.CASE_INSENSITIVE);
 
@@ -98,7 +97,7 @@ public class BardWords {
                                      String searchWord) {
         // Create a BreakIterator that breaks the works of
         // Shakespeare into words using the UK locale.
-        BreakIterator iterator = BreakIterator
+        var iterator = BreakIterator
             .getWordInstance(Locale.UK);
 
         // Set the text to search.
@@ -147,9 +146,9 @@ public class BardWords {
                            + "\"");
 
         // Process each work in the List.
-        for (String work : bardWorksMatchingWord) {
+        for (var work : bardWorksMatchingWord) {
             // Iterate through each match in the work.
-            for (Matcher matcher = pattern
+            for (var matcher = pattern
                      // Create a Matcher that associates the regex
                      // pattern with the work.
                      .matcher(work);

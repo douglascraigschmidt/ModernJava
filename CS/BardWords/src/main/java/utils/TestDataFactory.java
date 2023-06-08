@@ -36,7 +36,7 @@ public class TestDataFactory {
             URI uri = ClassLoader.getSystemResource(filename).toURI();
 
             // Open the File and read all the bytes.
-            CharSequence bytes =
+            String bytes =
                 new String(Files.readAllBytes(Paths.get(uri)));
 
             // Compile splitter into a regular expression (regex).
@@ -72,8 +72,8 @@ public class TestDataFactory {
                 "lord",
 
                 // The regular expression to compile, which matches
-                // the phrase "'lord' followed by either 'true' or
-                // 'false'.
+                // phrases containing 'lord' followed by either 'true'
+                // or 'false'.
                 "\\blord\\b.*(\\btrue\\b|\\bfalse\\b)"));
         }};
     }
