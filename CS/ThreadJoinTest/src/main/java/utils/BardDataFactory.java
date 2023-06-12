@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -69,8 +70,8 @@ public final class BardDataFactory {
         // associated with 'filename' by the 'splitter' and returns a
         // List.
         return processFile
-            (filename, content ->
-             Arrays.asList(content.split(splitter)));
+            (filename, content -> new ArrayList<>
+             (Arrays.asList(content.split(splitter))));
     }
 
     /**
@@ -81,8 +82,8 @@ public final class BardDataFactory {
         // Call processFile(), passing a Function that splits the File
         // associated with 'filename' by newlines and returns a List.
         return processFile
-            (filename, content ->
-             Arrays.asList(content.split("\\R")));
+            (filename, content -> new ArrayList<>
+                (Arrays.asList(content.split("\\R"))));
     }
 
     /**
