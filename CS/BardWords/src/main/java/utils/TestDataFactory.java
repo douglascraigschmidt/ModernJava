@@ -44,8 +44,8 @@ public class TestDataFactory {
 
             // Use the regex to split the File into an array of String
             // objects and then convert this array to a List.
-            var splitStrings = Arrays
-                .asList(pattern.split(bytes));
+            var splitStrings = new ArrayList<>
+                (Arrays.asList(pattern.split(bytes)));
 
             // Remove any empty String objects from the List.
             splitStrings.removeIf(String::isEmpty);

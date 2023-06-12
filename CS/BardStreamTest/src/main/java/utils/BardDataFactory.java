@@ -69,8 +69,8 @@ public final class BardDataFactory {
         // associated with 'filename' by the 'splitter' and returns a
         // List.
         return processFile
-            (filename, content ->
-             Arrays.asList(content.split(splitter)));
+            (filename, content -> new ArrayList<>
+             (Arrays.asList(content.split(splitter))));
     }
 
     /**
